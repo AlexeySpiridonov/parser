@@ -13,4 +13,5 @@ class appadvice_updated_paid extends appadvice_updated_free
 
 }
 
-appadvice_updated_paid::run();
+$a = new  appadvice_updated_paid;
+$a->run();
