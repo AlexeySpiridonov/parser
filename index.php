@@ -6,10 +6,19 @@ require_once './class/http.php';
 require_once './class/db.php';
 
 
-//require_once './parsers/google.php';
+
 require_once './parsers/appadvice_updated_free.php';
 require_once './parsers/appadvice_updated_paid.php';
-require_once './parsers/appadvice_social_free.php';
+require_once './parsers/appadvice_new_social_free.php';
+
+require_once './parsers/google.php';
+require_once './parsers/collection_topselling_new_free.php';
+require_once './parsers/collection_topselling_new_paid.php';
+require_once './parsers/game_collection_topselling_new_free.php';
+require_once './parsers/game_collection_topselling_new_paid.php';
+require_once './parsers/social_collection_topselling_free.php';
+require_once './parsers/social_collection_topselling_paid.php';
+
 
 
 /*

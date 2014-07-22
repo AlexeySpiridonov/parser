@@ -40,11 +40,19 @@ class db
             echo "skip parse: ".$url."\n";
             return true;
         }
+
         echo "allow parse: ".$url."\n";
+        $sql =  "INSERT INTO `cache` (`url`)
+                 VALUES              (:url)";
+        $preq = $this->db->prepare($sql);
+        $preq->bindValue(':url', $url);
+
+        $preq->execute();
         return false;
+
     }
 
-    function addItem( $type, $name, $email, $domain, $site, $url ) 
+    function addItem( $type ='', $name = '', $email = '', $domain = '', $site = '', $url = '' )
     {
         echo "type:".$type."\n";
         echo "name:".$name."\n";
@@ -52,7 +60,6 @@ class db
         echo "domain:".$domain."\n";
         echo "site:".$site."\n";
         echo "url:".$url."\n\n\n";
-
 
         $sql = "SELECT * FROM `items` WHERE `email` = :email and `type` = :type ";
         $pres = $this->db->prepare($sql);
@@ -64,7 +71,7 @@ class db
             return;
         }
 
-        $sql = "INSERT INTO `app` (`type`, `name`, `email`, `domain`, `url`, `site`, `update`) 
+        $sql = "INSERT INTO `items` (`type`, `name`, `email`, `domain`, `url`, `site`, `update`)
                 VALUES            (:type,  :name,  :email,  :domain,  :url,  :site,  NOW())";
 
         $preq = $this->db->prepare($sql);
@@ -80,7 +87,7 @@ class db
 
             return true;
         }
-
+        print_r($preq->errorInfo());
         return false;
 
     }
