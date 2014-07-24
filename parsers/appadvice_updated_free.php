@@ -63,7 +63,7 @@ class appadvice_updated_free
         if (preg_match('/<h2>By\s(.*?)<\/h2>/', $page, $res))
             return $res[1];
 
-        if (preg_match('Seller: <\/span>(.*?)<\/li>', $page, $res))
+        if (preg_match('/Seller: <\/span>(.*?)<\/li>/', $page, $res))
             return $res[1];
 
         return '';
