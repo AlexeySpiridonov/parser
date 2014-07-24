@@ -60,8 +60,13 @@ class appadvice_updated_free
 
     function devName($page)
     {
-        preg_match('/<h2>By\s(.*?)<\/h2>/', $page, $res);
-        return $res[1];
+        if (preg_match('/<h2>By\s(.*?)<\/h2>/', $page, $res))
+            return $res[1];
+
+        if (preg_match('Seller: <\/span>(.*?)<\/li>', $page, $res))
+            return $res[1];
+
+        return '';
     }
 
     function getEmail($page)
@@ -96,7 +101,7 @@ class appadvice_updated_free
     function siteDev($page)
     {
         preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $res);
-        return parse_url( $res[1], PHP_URL_HOST);
+        return parse_url($res[1], PHP_URL_HOST);
     }
 
     function run()
