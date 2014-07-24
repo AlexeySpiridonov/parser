@@ -37,12 +37,12 @@ class db
         $pres->bindParam(":url", $url);
         $pres->execute();
         if ($pres->rowCount() > 0) {
-            echo "skip parse: ".$url."\n";
+            echo "skip parse: " . $url . "\n";
             return true;
         }
 
-        echo "allow parse: ".$url."\n";
-        $sql =  "INSERT INTO `cache` (`url`)
+        echo "allow parse: " . $url . "\n";
+        $sql = "INSERT INTO `cache` (`url`)
                  VALUES              (:url)";
         $preq = $this->db->prepare($sql);
         $preq->bindValue(':url', $url);
@@ -52,14 +52,14 @@ class db
 
     }
 
-    function addItem( $type ='', $name = '', $email = '', $domain = '', $site = '', $url = '' )
+    function addItem($type = '', $name = '', $email = '', $domain = '', $site = '', $url = '')
     {
-        echo "type:".$type."\n";
-        echo "name:".$name."\n";
-        echo "email:".$email."\n";
-        echo "domain:".$domain."\n";
-        echo "site:".$site."\n";
-        echo "url:".$url."\n\n\n";
+        echo "type:" . $type . "\n";
+        echo "name:" . $name . "\n";
+        echo "email:" . $email . "\n";
+        echo "domain:" . $domain . "\n";
+        echo "site:" . $site . "\n";
+        echo "url:" . $url . "\n\n\n";
 
         $sql = "SELECT * FROM `items` WHERE `email` = :email and `type` = :type ";
         $pres = $this->db->prepare($sql);
@@ -76,11 +76,11 @@ class db
 
         $preq = $this->db->prepare($sql);
         $preq->bindValue(':type', $type);
-        $preq->bindValue(':name', $name);
-        $preq->bindValue(':email', $email);
-        $preq->bindValue(':domain', $domain);
-        $preq->bindValue(':site', $site);
-        $preq->bindValue(':url', $url);
+        $preq->bindValue(':name', trim($name));
+        $preq->bindValue(':email', trim($email));
+        $preq->bindValue(':domain', trim($domain));
+        $preq->bindValue(':site', trim($site));
+        $preq->bindValue(':url', trim($url));
 
 
         if ($preq->execute()) {

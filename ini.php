@@ -7,6 +7,6 @@
  */
 
 define ("DB_LOGIN" , "root");
-define ("DB_PASSWORD" , "ntkrbntkrb69");
+define ("DB_PASSWORD" , "BuhsO123");
 define ("DB_HOST" , "127.0.0.1");
 define ("DB_NAME" , "app_market");
