@@ -71,14 +71,14 @@ class appadvice_updated_free
 
     function getEmail($page)
     {
-        preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $site);
-        echo "Get mail from url: " . $site[1] . "\n";
-        $page = $this->http->get($site[1]);
-        if (preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
-            print_r($mail);
-            return $mail[0];
+        if (preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $site)) {
+            echo "Get mail from url: " . $site[1] . "\n";
+            $page = $this->http->get($site[1]);
+            if (preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
+                print_r($mail);
+                return $mail[0];
+            }
         }
-
 
         return '';
     }
@@ -100,8 +100,11 @@ class appadvice_updated_free
 
     function siteDev($page)
     {
-        preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $res);
-        return parse_url($res[1], PHP_URL_HOST);
+        if (preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $res))
+            return parse_url($res[1], PHP_URL_HOST);
+
+        return '';
+
     }
 
     function run()
