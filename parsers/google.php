@@ -105,8 +105,7 @@ class google
 
     function domain($mail)
     {
-        preg_match('/\@(.*?)$/', $mail, $domain);
-        return $domain[1];
+        return Helper::domain($mail);
     }
 
 

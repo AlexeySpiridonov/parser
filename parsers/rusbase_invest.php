@@ -28,8 +28,8 @@ class rusbase_invest extends rusbase
 
                     $site = $this->site($page_c) . "\n";
                     if ($site) {
-                        $email = $this->getEmail($site);
-                        $domain = $this->domain($email);
+                        $email = Helper::getEmail($site);
+                        $domain = Helper::domain($email);
                     } else {
                         $site = '';
                         $email = '';

@@ -73,23 +73,13 @@ class appadvice_updated_free
     {
         preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $site);
         echo "Get mail from url: " . $site[1] . "\n";
-        $page = $this->http->get($site[1]);
-        if (preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
-            print_r($mail);
-            return $mail[0];
-        }
-
-
-        return '';
+        return Helper::getEmail($site[1]);
     }
+
 
     function domain($mail)
     {
-        if (preg_match('/\@(.*?)$/', $mail, $domain)) {
-            return $domain[1];
-        } else {
-            return '';
-        }
+        return Helper::domain($mail);
     }
 
     function getId($header)

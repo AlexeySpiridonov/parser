@@ -1,12 +1,13 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: ssl
  * Date: 26.07.14
  * Time: 13:09
  */
-
-class f6s {
+class f6s
+{
 
     public $http;
     public $db;
@@ -18,42 +19,80 @@ class f6s {
         $this->db = new db;
     }
 
-    function getPage(){
-        while(true){
+    function getPage()
+    {
+        $p = 0;
+        while (true) {
+            $url_page = $this->url . $p;
+            echo "URL PAGE: " . $url_page . "\n";
+            $page = $this->http->get($url_page);
+            $allSt = $this->getAllStOnpage($page);
+
+            if ($allSt) {
+                foreach ($allSt as $st) {
+                    if (!$this->db->checkURL($st)) {
+                        $page = $this->http->get($st);
+                        $site = $this->site($page);
+                        $name = $this->name($page);
+                        if ($site) {
+                            $email = Helper::getEmail($site);
+                            $domain = Helper::domain($email);
+                        } else {
+                            $site = '';
+                            $email = '';
+                            $domain = '';
+                        }
+
+
+                        $this->db->addItem('f6s', $name, $email, $domain, $site, $st);
+                    }
+                }
+            } else {
+                break;
+            }
+
+            if ($p > 10000) {
+                break;
+            }
+
+            $p++;
 
         }
     }
 
-    function site($page)
+    function getAllStOnpage($page)
     {
-        if (preg_match('/<dd>Сайт: <a href=\"(.*?)\" target=\"_blank\">/', $page, $res))
+        if (preg_match_all('/<a href=\"(.*?)\" target=\"_blank\" class=\"name no \"/', $page, $res))
             return $res[1];
 
         return false;
     }
 
-    public function getEmail($url)
+    function site($page)
     {
-        $page = $this->http->get($url);
+        if (preg_match('/<a href=\"(.*?)\" itemprop=\"url\" target=\"_blank\" title=\"Website\"/', $page, $res))
+            return $res[1];
 
-        if (preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
-            print_r($mail);
-            return $mail[0];
-        }
+        return false;
+    }
+
+    function name($page)
+    {
+        if (preg_match('/<title>(.*?) \|/', $page, $res))
+            return $res[1];
 
         return '';
     }
 
+
     static function run()
     {
-        $base = new rusbase();
+        $base = new f6s();
+        $base->getPage();
 
-        for ($x = 1; $x <= 16; $x++) {
-            $base->comOnPage($x);
-        }
     }
 
-    function domain($email){
-        return preg_replace('/^(.*?)\@/', '', $email);
-    }
-} 
+
+}
+
+f6s::run();

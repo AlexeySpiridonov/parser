@@ -4,6 +4,7 @@ date_default_timezone_set('Europe/Moscow');
 require_once dirname(__FILE__).'/ini.php';
 require_once dirname(__FILE__).'/class/http.php';
 require_once dirname(__FILE__).'/class/db.php';
+require_once __DIR__ .'/class/Helper.php';
 
 
 
@@ -20,10 +21,14 @@ require_once dirname(__FILE__).'/parsers/social_collection_topselling_free.php';
 require_once dirname(__FILE__).'/parsers/social_collection_topselling_paid.php';
 
 require_once __DIR__ . '/parsers/rusbase.php';
+
+
 require_once __DIR__ . '/parsers/rusbase_invest.php';
 require_once __DIR__ . '/parsers/hh_vacancy_novosib.php';
 require_once __DIR__ . '/parsers/spark.php';
 
+
+require_once __DIR__ . '/parsers/f6s.php';
 
 /*
 $db = new db;

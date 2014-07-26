@@ -34,8 +34,8 @@ class hh_vacancy_novosib
                     $site = $this->site($com_page);
 
                     if ($site) {
-                        $email = $this->email($site);
-                        $domain = $this->domain($email);
+                        $email = Helper::getEmail($site);
+                        $domain = Helper::domain($email);
                     } else {
                         $site = '';
                         $email = '';
@@ -74,17 +74,7 @@ class hh_vacancy_novosib
         return false;
     }
 
-    function email($url)
-    {
-        $page = $this->http->get($url);
 
-        if (preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
-            print_r($mail);
-            return $mail[0];
-        }
-
-        return '';
-    }
 
 
     static function run()
@@ -93,10 +83,7 @@ class hh_vacancy_novosib
         $spark->getPage();
     }
 
-    function domain($email)
-    {
-        return preg_replace('/^(.*?)\@/', '', $email);
-    }
+
 }
 
 hh_vacancy_novosib::run();

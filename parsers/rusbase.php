@@ -37,8 +37,8 @@ class rusbase
 
                 $site = $this->site($page_c) . "\n";
                 if ($site) {
-                    $email = $this->getEmail($site);
-                    $domain = $this->domain($email);
+                    $email = Helper::getEmail($site);
+                    $domain = Helper::domain($email);
                 } else {
                     $site = '';
                     $email = '';
@@ -77,18 +77,6 @@ class rusbase
         return false;
     }
 
-    public function getEmail($url)
-    {
-        $page = $this->http->get($url);
-
-        if (preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
-            print_r($mail);
-            return $mail[0];
-        }
-
-        return '';
-    }
-
     static function run()
     {
         $base = new rusbase();
@@ -96,11 +84,6 @@ class rusbase
         for ($x = 1; $x <= 16; $x++) {
             $base->comOnPage($x);
         }
-    }
-
-    function domain($email)
-    {
-        return preg_replace('/^(.*?)\@/', '', $email);
     }
 
 

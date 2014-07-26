@@ -41,15 +41,15 @@ class spark
                         $site = $this->site($page);
 
                         if ($site) {
-                            $email = $this->email($site);
-                            $domain  = $this->domain($email);
+                            $email = Helper::getEmail($site);
+                            $domain = Helper::domain($email);
                         } else {
                             $site = '';
                             $email = '';
                             $domain = '';
                         }
 
-                        $this->db->addItem('spark', $name, $email,$domain, $site, $url_spark);
+                        $this->db->addItem('spark', $name, $email, $domain, $site, $url_spark);
                     }
                 }
 
@@ -57,8 +57,6 @@ class spark
             } else {
                 break;
             }
-
-
             $p++;
         }
     }
@@ -79,28 +77,13 @@ class spark
         return false;
     }
 
-    function email($url)
-    {
-        $page = $this->http->get($url);
-
-        if (preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
-            print_r($mail);
-            return $mail[0];
-        }
-
-        return '';
-    }
-
-
     static function run()
     {
         $spark = new spark;
         $spark->getPage();
     }
 
-    function domain($email){
-        return preg_replace('/^(.*?)\@/', '', $email);
-    }
+
 }
 
 
