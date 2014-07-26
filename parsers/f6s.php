@@ -11,7 +11,8 @@ class f6s
 
     public $http;
     public $db;
-    private $url = "http://www.f6s.com/main/frontpage/ajax-startups-list?page=";
+    public $url = "http://www.f6s.com/main/frontpage/ajax-startups-list?page=";
+    public $type = 'f6s';
 
     function __construct()
     {
@@ -26,6 +27,7 @@ class f6s
             $url_page = $this->url . $p;
             echo "URL PAGE: " . $url_page . "\n";
             $page = $this->http->get($url_page);
+            //echo $page;
             $allSt = $this->getAllStOnpage($page);
 
             if ($allSt) {
@@ -44,14 +46,14 @@ class f6s
                         }
 
 
-                        $this->db->addItem('f6s', $name, $email, $domain, $site, $st);
+                        $this->db->addItem($this->type, $name, $email, $domain, $site, $st);
                     }
                 }
             } else {
                 break;
             }
 
-            if ($p > 10000) {
+            if ($p > 1000) {
                 break;
             }
 
