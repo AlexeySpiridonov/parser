@@ -55,14 +55,18 @@ class rusbase
 
     function name($page)
     {
-        preg_match('/<meta property=\"og:title\" content=\"(.*?)\" \/>/', $page, $res);
-        return $res[1];
+        if (preg_match('/<meta property=\"og:title\" content=\"(.*?)\" \/>/', $page, $res))
+            return $res[1];
+
+        return '';
     }
 
     function url_com($page)
     {
-        preg_match('/<meta property=\"og:url\" content=\"(.*?)\" \/>/', $page, $res);
-        return $res[1];
+        if (preg_match('/<meta property=\"og:url\" content=\"(.*?)\" \/>/', $page, $res))
+            return $res[1];
+
+        return '';
     }
 
     function site($page)
@@ -94,7 +98,8 @@ class rusbase
         }
     }
 
-    function domain($email){
+    function domain($email)
+    {
         return preg_replace('/^(.*?)\@/', '', $email);
     }
 
