@@ -1,10 +1,10 @@
 <?php
 /**
-* Created by PhpStorm.
-* User: ssl
-* Date: 21.07.14
-* Time: 15:11
-*/
+ * Created by PhpStorm.
+ * User: ssl
+ * Date: 21.07.14
+ * Time: 15:11
+ */
 
 define ("DB_LOGIN" , "root");
 define ("DB_PASSWORD" , "ntkrbntkrb69");
