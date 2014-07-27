@@ -102,6 +102,8 @@ class http
      */
     private function exec()
     {
+        PRFLR::Begin('Http.exec');
+
         // Установливает параметры необходимые для правильной обработки данных
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->ch, CURLOPT_HEADER, true);
@@ -113,6 +115,9 @@ class http
         $this->processHeaders();
         $this->processBody();
         $this->correctEncoding();
+        
+        PRFLR::End('Http.exec');
+
     }
 
     /**
