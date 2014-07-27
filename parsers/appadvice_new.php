@@ -12,5 +12,3 @@ class appadvice_new extends appadvice_updated_free
     public $url = "http://appadvice.com/apps/new/";
 
 }
-
-appadvice_new::run();
