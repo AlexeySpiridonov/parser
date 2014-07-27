@@ -116,21 +116,23 @@ class macradar_ru extends appadvice_updated_free
             $allMore = $this->allReadMoreOnPage($page);
             if ($allMore && count($allMore) > 0) {
                 foreach ($allMore as $url) {
-                    if (!$this->db->checkURL($app)) {
+                    if (!$this->db->checkURL($url)) {
                         $page = $this->http->get($url);
                         $appsOnPage = $this->allApp($page);
                         foreach ($appsOnPage as $app) {
-                            $page = $this->http->get($app);
-                            if (!empty($page)) {
-                                $mail = $this->getEmail($page);
-                                $this->db->addItem(
-                                    $this->type,
-                                    $this->devName($page),
-                                    $mail,
-                                    $this->domain(trim($mail)),
-                                    $this->siteDev($page),
-                                    $url
-                                );
+                            if (!$this->db->checkURL($app)) {
+                                $page = $this->http->get($app);
+                                if (!empty($page)) {
+                                    $mail = $this->getEmail($page);
+                                    $this->db->addItem(
+                                        $this->type,
+                                        $this->devName($page),
+                                        $mail,
+                                        $this->domain(trim($mail)),
+                                        $this->siteDev($page),
+                                        $url
+                                    );
+                                }
                             }
                         }
                     }
