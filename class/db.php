@@ -32,12 +32,15 @@ class db
 
     function checkURL($url)
     {
+        PRFLR::Begin('DB.checkURL');
         $sql = "SELECT * FROM `cache` WHERE `url` = :url";
         $pres = $this->db->prepare($sql);
         $pres->bindParam(":url", $url);
         $pres->execute();
         if ($pres->rowCount() > 0) {
             echo "skip parse: " . $url . "\n";
+            PRFLR::End('DB.checkURL', "skip");
+
             return true;
         }
 
@@ -48,12 +51,15 @@ class db
         $preq->bindValue(':url', $url);
 
         $preq->execute();
+        PRFLR::End('DB.checkURL', "add");
         return false;
 
     }
 
     function addItem($type = '', $name = '', $email = '', $domain = '', $site = '', $url = '')
     {
+        PRFLR::Begin('DB.addItem');
+
         echo "type:" . $type . "\n";
         echo "name:" . $name . "\n";
         echo "email:" . $email . "\n";
@@ -68,6 +74,7 @@ class db
         $pres->execute();
         if ($pres->rowCount() > 0) {
             echo "skip add\n";
+            PRFLR::End('DB.addItem', "skip");
             return;
         }
         echo "----------\n\n";
@@ -84,10 +91,11 @@ class db
 
 
         if ($preq->execute()) {
-
+            PRFLR::End('DB.addItem', "add");
             return true;
         }
         print_r($preq->errorInfo());
+        PRFLR::End('DB.addItem', "error");
         return false;
 
     }
