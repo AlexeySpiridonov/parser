@@ -12,6 +12,3 @@ class appadvice_updated_paid extends appadvice_updated_free
     public $url = "http://appadvice.com/apps/new/all/free/all/";
 
 }
-
-$a = new  appadvice_updated_paid;
-$a->run();
