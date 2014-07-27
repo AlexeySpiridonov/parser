@@ -46,7 +46,7 @@ require_once dirname(__FILE__).'/parsers/game_collection_topselling_new_free.php
 require_once dirname(__FILE__).'/parsers/game_collection_topselling_new_paid.php';
 require_once dirname(__FILE__).'/parsers/social_collection_topselling_free.php';
 require_once dirname(__FILE__).'/parsers/social_collection_topselling_paid.php';
-
+require_once dirname(__FILE__).'/parsers/app_collection_lifestyle_top_free.php';
 
 /*
 $db = new db;
