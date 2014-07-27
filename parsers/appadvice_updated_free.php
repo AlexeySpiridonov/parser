@@ -100,8 +100,10 @@ class appadvice_updated_free
 
     function siteDev($page)
     {
-        preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $res);
+        if(preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $res))
         return parse_url($res[1], PHP_URL_HOST);
+
+        return '';
     }
 
     function run()
