@@ -6,7 +6,7 @@
  * Date: 26.07.14
  * Time: 19:41
  */
-class macradar_ru
+class macradar_ru extends appadvice_updated_free
 {
 
     public $http;
@@ -170,5 +170,3 @@ class macradar_ru
         }
     }
 }
-
-macradar_ru::start();
