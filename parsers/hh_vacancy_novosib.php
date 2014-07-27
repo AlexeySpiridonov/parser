@@ -21,7 +21,7 @@ class hh_vacancy_novosib
 
     function getPage()
     {
-        for ($x = 0; $x <= 15; $x++) {
+        for ($x = 0; $x <= 100; $x++) {
             $page = $this->http->get($this->url . $x);
             $comOnPage = $this->vacancyOnPage($page);
 
@@ -61,11 +61,16 @@ class hh_vacancy_novosib
     function name($page)
     {
         if (preg_match('/<h1 class=\"employer-name\">.*? \«(.*?)\»<\/h1>/', $page, $res)) {
-            echo "name: " . $res[1] . "\n";
             return $res[1];
         }
 
-            return '';
+        if (preg_match('/RSS<\/a>Вакансии компании «(.*?)»<\/h3>/', $page, $res))
+            return $res[1];
+
+        if (preg_match('/ <h1 class=\"b-terrasoft-content_colomn_text_title\">(.*?)<\/h1>/', $page, $res))
+            return $res[1];
+
+        return '';
     }
 
     function site($page)
