@@ -42,7 +42,7 @@ class hh_vacancy_novosib
                         $domain = '';
                     }
 
-                    $this->db->addItem('hh_novosib', $name, $email,$domain, $site, $url);
+                    $this->db->addItem('hh_novosib', $name, $email, $domain, $site, $url);
                 }
 
             }
@@ -60,9 +60,12 @@ class hh_vacancy_novosib
 
     function name($page)
     {
-        preg_match('/<h1 class=\"employer-name\">.*? \«(.*?)\»<\/h1>/', $page, $res);
-        echo "name: " . $res[1] . "\n";
-        return $res[1];
+        if (preg_match('/<h1 class=\"employer-name\">.*? \«(.*?)\»<\/h1>/', $page, $res)) {
+            echo "name: " . $res[1] . "\n";
+            return $res[1];
+        }
+
+            return '';
     }
 
     function site($page)
@@ -73,8 +76,6 @@ class hh_vacancy_novosib
 
         return false;
     }
-
-
 
 
     static function run()

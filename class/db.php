@@ -59,7 +59,7 @@ class db
         echo "email:" . $email . "\n";
         echo "domain:" . $domain . "\n";
         echo "site:" . $site . "\n";
-        echo "url:" . $url . "\n\n\n";
+        echo "url:" . $url . "\n-------------------------\n\n";
 
         $sql = "SELECT * FROM `items` WHERE `email` = :email and `type` = :type ";
         $pres = $this->db->prepare($sql);

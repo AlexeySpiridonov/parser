@@ -27,7 +27,7 @@ class f6s
             $url_page = $this->url . $p;
             echo "URL PAGE: " . $url_page . "\n";
             $page = $this->http->get($url_page);
-            //echo $page;
+            // echo $page;
             $allSt = $this->getAllStOnpage($page);
 
             if ($allSt) {

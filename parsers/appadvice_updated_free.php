@@ -31,7 +31,7 @@ class appadvice_updated_free
 
     function getPage($url)
     {
-        if ($this->db->checkURL($url)) return;
+        if (!$this->db->checkURL($url)) return;
 
         echo "URL: " . $url . "\n";
         $page = $this->http->get($url);
@@ -60,13 +60,15 @@ class appadvice_updated_free
 
     function devName($page)
     {
-        if (preg_match('/<h2>By\s(.*?)<\/h2>/', $page, $res))
-            return $res[1];
+
+        if (preg_match_all('/<h2>.*? (.*?)<\/h2>/', $page, $res))
+            return $res[1][2];
 
         if (preg_match('/Seller: <\/span>(.*?)<\/li>/', $page, $res))
             return $res[1];
 
-        return '';
+        if (preg_match('/<li class=\"copyright\">© (.*?)<\/li>/', $page, $res))
+            return '';
     }
 
     function getEmail($page)
@@ -105,5 +107,5 @@ class appadvice_updated_free
 
 }
 
-$a = new  appadvice_updated_free;
-$a->run();
+//$a = new  appadvice_updated_free;
+//$a->run();

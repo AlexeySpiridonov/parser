@@ -31,6 +31,9 @@ require_once __DIR__ . '/parsers/spark.php';
 require_once __DIR__ . '/parsers/f6s.php';
 require_once __DIR__ . '/parsers/f6s_job.php';
 
+
+require_once __DIR__ . '/parsers/macradar_ru.php';
+
 /*
 $db = new db;
 $allDev = $db->getReport();
