@@ -59,7 +59,11 @@ class db
         echo "email:" . $email . "\n";
         echo "domain:" . $domain . "\n";
         echo "site:" . $site . "\n";
+<<<<<<< HEAD
         echo "url:" . $url . "\n-------------------------\n\n";
+=======
+        echo "url:" . $url . "\n";
+>>>>>>> 4fc961863d9dee4c7a2e9dd58a1db1f0e032175c
 
         $sql = "SELECT * FROM `items` WHERE `email` = :email and `type` = :type ";
         $pres = $this->db->prepare($sql);
@@ -67,10 +71,10 @@ class db
         $pres->bindParam(":type", $type);
         $pres->execute();
         if ($pres->rowCount() > 0) {
-            echo "skip add";
+            echo "skip add\n";
             return;
         }
-
+        echo "----------\n\n";
         $sql = "INSERT INTO `items` (`type`, `name`, `email`, `domain`, `url`, `site`, `update`)
                 VALUES            (:type,  :name,  :email,  :domain,  :url,  :site,  NOW())";
 
