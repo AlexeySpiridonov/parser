@@ -61,9 +61,9 @@ class db
         echo "site:" . $site . "\n";
         echo "url:" . $url . "\n";
 
-        $sql = "SELECT * FROM `items` WHERE `email` = :email and `type` = :type ";
+        $sql = "SELECT * FROM `items` WHERE `url` = :url and `type` = :type ";
         $pres = $this->db->prepare($sql);
-        $pres->bindParam(":email", $email);
+        $pres->bindParam(":url", $url);
         $pres->bindParam(":type", $type);
         $pres->execute();
         if ($pres->rowCount() > 0) {
