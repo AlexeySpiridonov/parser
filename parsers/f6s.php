@@ -53,7 +53,7 @@ class f6s
                 break;
             }
 
-            if ($p > 1000) {
+            if ($p > 4000) {
                 break;
             }
 
