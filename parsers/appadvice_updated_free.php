@@ -73,6 +73,9 @@ class appadvice_updated_free
     function getEmail($page)
     {
         preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $site);
+        
+        if (!isset($site[1])) return null;
+        
         echo "Get mail from url: " . $site[1] . "\n";
         return Helper::getEmail($site[1]);
     }
