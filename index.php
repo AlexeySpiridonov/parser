@@ -1,6 +1,9 @@
 <?php
 date_default_timezone_set('Europe/Moscow');
 
+include('./PRFLR.SDK.PHP/prflr.php');
+
+
 require_once dirname(__FILE__).'/ini.php';
 require_once dirname(__FILE__).'/class/http.php';
 require_once dirname(__FILE__).'/class/db.php';
