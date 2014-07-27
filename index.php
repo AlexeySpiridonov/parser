@@ -10,7 +10,7 @@ require_once dirname(__FILE__).'/class/http.php';
 require_once dirname(__FILE__).'/class/db.php';
 require_once __DIR__ .'/class/Helper.php';
 
-
+/*
 //apple
 require_once dirname(__FILE__).'/parsers/appadvice_updated_free.php';
 require_once dirname(__FILE__).'/parsers/appadvice_updated_paid.php';
@@ -37,6 +37,7 @@ $a = new  appadvice_updated_paid;
 $a->run();
 $a = new  appadvice_new;
 $a->run();
+*/
 
 //google
 require_once dirname(__FILE__).'/parsers/google.php';
