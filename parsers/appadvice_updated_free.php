@@ -31,7 +31,7 @@ class appadvice_updated_free
 
     function getPage($url)
     {
-        if (!$this->db->checkURL($url)) return;
+        if ($this->db->checkURL($url)) return;
 
         $page = $this->http->get($url);
         if (!empty($page)) {
@@ -72,12 +72,15 @@ class appadvice_updated_free
 
     function getEmail($page)
     {
-        preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $site);
-        
-        if (!isset($site[1])) return null;
-        
-        echo "Get mail from url: " . $site[1] . "\n";
-        return Helper::getEmail($site[1]);
+        if (preg_match('/href=\"(.*?)\" class=\"see-all\">/', $page, $site)) {
+
+            if (!isset($site[1])) return null;
+
+            echo "Get mail from url: " . $site[1] . "\n";
+            return Helper::getEmail($site[1]);
+        }
+
+        return null;
     }
 
 
@@ -88,8 +91,11 @@ class appadvice_updated_free
 
     function getId($header)
     {
-        preg_match('/x-apple-orig-url.*?\/id(\d{1,})\?/', $header, $res);
-        return $res[1];
+        if (preg_match('/x-apple-orig-url.*?\/id(\d{1,})\?/', $header, $res))
+            return $res[1];
+
+        return '';
+
     }
 
     function siteDev($page)
