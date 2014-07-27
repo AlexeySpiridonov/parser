@@ -129,7 +129,7 @@ class macradar_ru extends appadvice_updated_free
                                     $mail,
                                     $this->domain(trim($mail)),
                                     $this->siteDev($page),
-                                    $url
+                                    $app
                                 );
                             }
                         }
