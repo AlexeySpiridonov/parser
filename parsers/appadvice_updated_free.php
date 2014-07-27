@@ -114,6 +114,3 @@ class appadvice_updated_free
     }
 
 }
-
-//$a = new  appadvice_updated_free;
-//$a->run();
