@@ -10,15 +10,17 @@ class Helper {
 
     static function getEmail($url)
     {
+        PRFLR::Begin('Helper.getEmail');
+
         $http = new http;
         $page = $http->get($url);
-
+        $m = "";
         if (!empty($page) && preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
             print_r($mail);
-            return $mail[0];
+            $m = $mail[0];
         }
-
-        return '';
+        PRFLR::End('Helper.getEmail');
+        return $m;
     }
 
     static function domain($email){
