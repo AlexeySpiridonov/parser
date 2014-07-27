@@ -33,7 +33,6 @@ class appadvice_updated_free
     {
         if (!$this->db->checkURL($url)) return;
 
-        echo "URL: " . $url . "\n";
         $page = $this->http->get($url);
         if (!empty($page)) {
             $getHeaders = $this->http->getHeaders();
