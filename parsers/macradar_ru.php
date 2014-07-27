@@ -114,7 +114,7 @@ class macradar_ru extends appadvice_updated_free
             );
             $page = json_decode($this->http->post('http://macradar.ru/?infinity=scrolling', $postdata), true);
             $allMore = $this->allReadMoreOnPage($page);
-            if (count($allMore) > 0) {
+            if ($allMore && count($allMore) > 0) {
                 foreach ($allMore as $url) {
                     $page = $this->http->get($url);
                     $appsOnPage = $this->allApp($page);
@@ -148,6 +148,7 @@ class macradar_ru extends appadvice_updated_free
 
     function allReadMoreOnPage($page)
     {
+        $page['html'] = isset($page['html']) ? $page['html'] : '';
         if (preg_match_all('/<a href=\"(.*?)\" class=\"more-link\">/', $page['html'], $res))
             return $res[1];
 

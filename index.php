@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('Europe/Moscow');
 
-include('./PRFLR.SDK.PHP/prflr.php');
+
 
 PRFLR::init('hive', 'tOa0U4uBphHNQZUO7yWajR1SVoUmUWR1');
 
