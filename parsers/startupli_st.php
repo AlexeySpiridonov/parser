@@ -25,7 +25,8 @@ class startupli_st
         $p = 1;
         while (true) {
             $page = $this->http->get($this->url . $p);
-            if ($appPost = $this->allPostOnPage($page)) {
+            $appPost = $this->allPostOnPage($page);
+            if ($appPost) {
                 print_r($appPost);
                 foreach ($appPost[1] as $k => $post) {
                     $url = 'http://startupli.st' . $post;
@@ -43,7 +44,14 @@ class startupli_st
                         }
                     }
                 }
+            } else{
+                break;
             }
+
+            if($p > 500){
+                break;
+            }
+            
             $p++;
         }
     }
