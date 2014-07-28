@@ -46,8 +46,7 @@ $a->run();
 $a = new  appadvice_new;
 $a->run();
 
-//apple and google
-require_once __DIR__ . '/parsers/lifehacker_ru.php';
+
 
 //google
 require_once dirname(__FILE__) . '/parsers/google.php';
@@ -60,7 +59,8 @@ require_once dirname(__FILE__) . '/parsers/social_collection_topselling_paid.php
 require_once dirname(__FILE__) . '/parsers/app_collection_lifestyle_top_free.php';
 
 
-
+//apple and google
+require_once __DIR__ . '/parsers/lifehacker_ru.php';
 
 
 /*
