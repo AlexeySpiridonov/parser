@@ -19,6 +19,8 @@ class http
     public $referer = '';
     public $timeout = 250;
 
+    public $param_http_header = array();
+
 
 
     public $externalIp;
@@ -304,7 +306,13 @@ class http
     private function setPostFields($postdata)
     {
         curl_setopt($this->ch, CURLOPT_POST, true);
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded; charset=UTF-8'));
+
+        $param_http_header[] = "Content-Type: application/x-www-form-urlencoded; charset=UTF-8";
+
+        if(in_array('XMLHttpRequest', $this->param_http_header))
+            $param_http_header[] = "X-Requested-With: XMLHttpRequest";
+
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER, $param_http_header);
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query($postdata, '', '&'));
     }
 
