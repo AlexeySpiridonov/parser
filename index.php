@@ -25,6 +25,7 @@ require_once __DIR__ . '/parsers/hh_vacancy_novosib.php';
 require_once __DIR__ . '/parsers/startupli_st.php';
 require_once __DIR__ . '/parsers/betalist_com.php';
 require_once __DIR__ . '/parsers/geekwire_com.php';
+require_once __DIR__ . '/parsers/angel_co.php';
 
 require_once __DIR__ . '/parsers/macradar_ru.php';
 macradar_ru::start();
@@ -59,12 +60,7 @@ require_once dirname(__FILE__) . '/parsers/social_collection_topselling_paid.php
 require_once dirname(__FILE__) . '/parsers/app_collection_lifestyle_top_free.php';
 
 
-//others
-require_once __DIR__ . '/parsers/hh_vacancy_novosib.php';
-require_once __DIR__ . '/parsers/startupli_st.php';
-require_once __DIR__ . '/parsers/betalist_com.php';
-require_once __DIR__ . '/parsers/geekwire_com.php';
-require_once __DIR__ . '/parsers/angel_co.php';
+
 
 
 /*
