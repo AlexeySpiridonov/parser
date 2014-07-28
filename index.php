@@ -12,6 +12,7 @@ require_once __DIR__ . '/class/Helper.php';
 
 
 
+
 //apple
 require_once dirname(__FILE__) . '/parsers/appadvice_updated_free.php';
 require_once dirname(__FILE__) . '/parsers/appadvice_updated_paid.php';
@@ -49,11 +50,13 @@ require_once dirname(__FILE__) . '/parsers/social_collection_topselling_free.php
 require_once dirname(__FILE__) . '/parsers/social_collection_topselling_paid.php';
 require_once dirname(__FILE__) . '/parsers/app_collection_lifestyle_top_free.php';
 
-//others
-require_once __DIR__ . '/parsers/hh_vacancy_novosib.php';
-
 //apple and google
 require_once __DIR__ . '/parsers/lifehacker_ru.php';
+
+
+//others
+require_once __DIR__ . '/parsers/hh_vacancy_novosib.php';
+require_once __DIR__ . '/parsers/startupli_st.php';
 
 
 /*
