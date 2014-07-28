@@ -44,15 +44,15 @@ class startupli_st
                         }
                     }
                 }
-            } else{
+            } else {
                 break;
             }
 
-            if($p > 500){
+            if ($p > 500)
                 break;
-            }
-            
+
             $p++;
+
         }
     }
 
