@@ -145,7 +145,7 @@ class macradar_ru extends appadvice_updated_free
     function allReadMoreOnPage($page)
     {
         $page['html'] = isset($page['html']) ? $page['html'] : '';
-        if (preg_match_all('/<a href=\"(.*?)\" class=\"more-link\">/', $page['html'], $res))
+        if (preg_match_all('/<a href=\"(.*?)\" (class=\"more-link\"|\s)>/', $page['html'], $res))
             return $res[1];
 
         return false;
