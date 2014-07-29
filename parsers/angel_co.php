@@ -23,7 +23,7 @@ class angel_co
     {
 
         $this->http->param_http_header = ['XMLHttpRequest'];
-        for ($x = 1; $x < 500; $x++) {
+        for ($x = 1; $x < 10000; $x++) {
             $postdata = [
                 'sort' => 'signal',
                 'page' => $x
