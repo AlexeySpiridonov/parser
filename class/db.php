@@ -69,7 +69,7 @@ class db
 
         $sql = "SELECT * FROM `items` WHERE `url` = :url and `type` = :type ";
         $pres = $this->db->prepare($sql);
-        $pres->bindParam(":url", $url);
+        $pres->bindParam(":url", trim($url));
         $pres->bindParam(":type", $type);
         $pres->execute();
         if ($pres->rowCount() > 0) {
