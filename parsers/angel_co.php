@@ -38,12 +38,15 @@ class angel_co
                         //print_r($page['startup_roles'][0]['tagged']);
                         $name = $page['startup_roles'][0]['tagged']['name'];
                         $site = isset($page['startup_roles'][0]['tagged']['company_url']) ? $page['startup_roles'][0]['tagged']['company_url'] : false;
+                        $email = '';
+                        $domain = '';
                         if ($site) {
                             $email = Helper::getEmail($site);
                             $domain = Helper::domain($email);
-
-                            $this->db->addItem($this->type."_".$page['startup_roles'][0]['tagged']['type'], $name, $email, $domain, $site, $url);
                         }
+                        
+                        $this->db->addItem($this->type."_".$page['startup_roles'][0]['tagged']['type'], $name, $email, $domain, $site, $url);
+                        
                     }
                 }
             }
