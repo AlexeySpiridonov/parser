@@ -36,7 +36,7 @@ require_once __DIR__ . '/parsers/rusbase.php';
 require_once __DIR__ . '/parsers/rusbase_invest.php';
 require_once __DIR__ . '/parsers/spark.php';
 require_once __DIR__ . '/parsers/spark_ru_jobs.php';
-
+require_once __DIR__ . "/parsers/brainstorage_me.php";
 
 $a = new  appadvice_updated_free;
 $a->run();
