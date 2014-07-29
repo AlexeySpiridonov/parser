@@ -30,7 +30,7 @@ class startupli_st
                 print_r($appPost);
                 if(count($appPost[1]) < 2)
                     break;
-                
+
                 foreach ($appPost[1] as $k => $post) {
                     $url = 'http://startupli.st' . $post;
                     if (!$this->db->checkURL($url)) {

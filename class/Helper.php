@@ -18,6 +18,9 @@ class Helper {
         if (!empty($page) && preg_match('/([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}/', $page, $mail)) {
             print_r($mail);
             $m = $mail[0];
+
+            if(preg_match('/(\.png|\.jpg|\.gif)/', $m))
+                $m = "";
         }
         PRFLR::End('Helper.getEmail');
         return $m;
