@@ -35,7 +35,7 @@ class angel_co
                     $url = 'https://api.angel.co/1/startup_roles?v=1&startup_id=' . $id;
                     if (!$this->db->checkURL($url)) {
                         $page = json_decode($this->http->get($url), true);
-                        print_r($page['startup_roles'][0]['tagged']);
+                        //print_r($page['startup_roles'][0]['tagged']);
                         $name = $page['startup_roles'][0]['tagged']['name'];
                         $site = isset($page['startup_roles'][0]['tagged']['company_url']) ? $page['startup_roles'][0]['tagged']['company_url'] : false;
                         if ($site) {
