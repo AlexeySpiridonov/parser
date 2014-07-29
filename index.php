@@ -25,7 +25,7 @@ require_once __DIR__ . '/parsers/hh_vacancy_novosib.php';
 require_once __DIR__ . '/parsers/startupli_st.php';
 require_once __DIR__ . '/parsers/betalist_com.php';
 require_once __DIR__ . '/parsers/geekwire_com.php';
-require_once __DIR__ . '/parsers/angel_co.php';
+//require_once __DIR__ . '/parsers/angel_co.php';
 
 require_once __DIR__ . '/parsers/macradar_ru.php';
 macradar_ru::start();
