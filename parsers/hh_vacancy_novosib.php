@@ -13,7 +13,7 @@ class hh_vacancy_novosib
 
     public $type = 'hh_novosib';
     public $url = 'http://novosibirsk.hh.ru/search/vacancy?clusters=true&specialization=1&page=';
-    public $text = '';
+    public $text = false;
 
     function __construct()
     {
@@ -23,9 +23,9 @@ class hh_vacancy_novosib
 
     function getPage()
     {
-        for ($x = 0; $x <= 100; $x++) {
+        for ($x = 0; $x < 100; $x++) {
 
-            if(!empty($this->text))
+            if($this->text)
                 $url_p = $this->url . $x . "&text=" . $this->text;
             else
                 $url_p = $this->url . $x ;
@@ -33,6 +33,10 @@ class hh_vacancy_novosib
             $page = $this->http->get($url_p);
             $comOnPage = $this->vacancyOnPage($page);
 
+            if(!$comOnPage)
+                break;
+            
+            print_r($comOnPage);
             foreach ($comOnPage as $com) {
                 $url = 'http://novosibirsk.hh.ru/employer/' . trim($com);
                 if (!$this->db->checkURL($url)) {
