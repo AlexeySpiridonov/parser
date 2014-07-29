@@ -35,7 +35,7 @@ class hh_vacancy_novosib
 
             if(!$comOnPage)
                 break;
-            
+
             print_r($comOnPage);
             foreach ($comOnPage as $com) {
                 $url = 'http://novosibirsk.hh.ru/employer/' . trim($com);
