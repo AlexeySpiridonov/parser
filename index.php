@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('Europe/Moscow');
 
-include('./PRFLR.SDK.PHP/prflr.php');
+include(dirname(__FILE__) . '/PRFLR.SDK.PHP/prflr.php');
 
 PRFLR::init('hive', 'tOa0U4uBphHNQZUO7yWajR1SVoUmUWR1');
 
@@ -25,7 +25,7 @@ require_once __DIR__ . '/parsers/hh_vacancy_novosib.php';
 require_once __DIR__ . '/parsers/startupli_st.php';
 require_once __DIR__ . '/parsers/betalist_com.php';
 require_once __DIR__ . '/parsers/geekwire_com.php';
-require_once __DIR__ . '/parsers/angel_co.php';
+//require_once __DIR__ . '/parsers/angel_co.php';
 
 require_once __DIR__ . '/parsers/macradar_ru.php';
 macradar_ru::start();
