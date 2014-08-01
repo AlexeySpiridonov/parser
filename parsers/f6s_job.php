@@ -19,7 +19,7 @@ class f6s_job extends f6s{
 
     function getAllStOnpage($page){
         preg_match_all('/<a href=\"(.*?)\" title=\".*?\"  class=\"name no\">/', $page, $res);
-
+        $url = array();
         foreach($res[1] as $p){
             preg_match('/^\/(.*?)\//', $p, $j);
             $url[] = "http://www.f6s.com/".$j[1]."#/about";

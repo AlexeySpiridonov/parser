@@ -19,7 +19,7 @@ class Helper {
             print_r($mail);
             $m = $mail[0];
 
-            if(preg_match('/(\.png|\.jpg|\.gif)/', $m))
+            if(preg_match('/(\.png|\.jpg|\.gif|\.css|\.js)/', $m))
                 $m = "";
         }
         PRFLR::End('Helper.getEmail');
