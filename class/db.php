@@ -72,7 +72,21 @@ class db
         @$pres->bindParam(":url", trim($url));
         $pres->bindParam(":type", $type);
         $pres->execute();
+
         if ($pres->rowCount() > 0) {
+            $res = $pres->fetch(PDO::FETCH_ASSOC);
+            if (empty($res['email']) && !empty($email)) {
+                $this->upItems($res['id'], 'email', $email);
+                $this->upItems($res['id'], 'domain', $domain);
+                echo "UP email & domain\n";
+            }
+
+            if (empty($res['site']) && !empty($site)) {
+                $this->upItems($res['id'], 'site', $site);
+                echo "UP site\n";
+            }
+
+
             echo "skip add\n";
             PRFLR::End('DB.addItem', "skip");
             return;
@@ -116,6 +130,13 @@ class db
 
         if ($fetch != 'all')
             return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    function upItems($id, $param, $value)
+    {
+        $sql = "UPDATE `items` SET `" . $param . "`=? WHERE `id`=?";
+        $preq = $this->db->prepare($sql);
+        $preq->execute(array($value, $id));
     }
 
 
