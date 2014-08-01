@@ -76,13 +76,13 @@ class db
         if ($pres->rowCount() > 0) {
             $res = $pres->fetch(PDO::FETCH_ASSOC);
             if (empty($res['email']) && !empty($email)) {
-                $this->upItems($res['id'], 'email', $email);
-                $this->upItems($res['id'], 'domain', $domain);
+                $this->upItems($res['id'], 'email', trim($email));
+                $this->upItems($res['id'], 'domain', trim($domain));
                 echo "UP email & domain\n";
             }
 
             if (empty($res['site']) && !empty($site)) {
-                $this->upItems($res['id'], 'site', $site);
+                $this->upItems($res['id'], 'site', trim($site));
                 echo "UP site\n";
             }
 
