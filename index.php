@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/class/db.php';
 require_once __DIR__ . '/class/Helper.php';
 
 
-require_once __DIR__ . '/parsers/angel_co.php';
+
 
 //apple
 require_once dirname(__FILE__) . '/parsers/appadvice_updated_free.php';
@@ -38,6 +38,9 @@ require_once __DIR__ . '/parsers/rusbase_invest.php';
 require_once __DIR__ . '/parsers/spark.php';
 require_once __DIR__ . '/parsers/spark_ru_jobs.php';
 require_once __DIR__ . "/parsers/brainstorage_me.php";
+require_once __DIR__ . '/parsers/angel_co.php';
+require_once __DIR__ . '/parsers/angel_co_jobs.php';
+
 
 $a = new  appadvice_updated_free;
 $a->run();
