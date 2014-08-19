@@ -114,9 +114,9 @@ class db
 
     }
 
-    function selDev()
+    function getReport()
     {
-        $sql = "SELECT `id`, `email`, `domen`, `name`  FROM `dev`";
+        $sql = "SELECT distinct `email`, `name`  FROM `items` where `update` > NOW() - INTERVAL 1 DAY and email!=''";
 
         return $this->selexec($sql);
     }
