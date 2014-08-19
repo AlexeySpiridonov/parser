@@ -15,5 +15,6 @@ $db = new db;
 $all = $db->getReport();
 $fp = fopen('./reports/list-'. date("Y-m-d") . '.csv', 'w');
 foreach($all as $item){
+    print_r($item);
     fputcsv($fp, array($item->email, $item->name) );
 }
