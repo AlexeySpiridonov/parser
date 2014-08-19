@@ -121,6 +121,13 @@ class db
         return $this->selexec($sql);
     }
 
+    function getReportAll()
+    {
+        $sql = "SELECT distinct `email`, `name`  FROM `items` where email!=''";
+
+        return $this->selexec($sql);
+    }
+    
     function selexec($sql, $fetch = 'all')
     {
         $query = $this->db->prepare($sql);
