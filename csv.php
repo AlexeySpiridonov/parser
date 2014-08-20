@@ -13,7 +13,7 @@ require_once __DIR__ . '/class/Helper.php';
 
 $db = new db;
 $all = $db->getReport();
-$fp = fopen( dirname(__FILE__) . '/reports/list-'. date("Y-m-d") . '.csv', 'w');
+$fp = fopen( dirname(__FILE__) . '/reports/list-dif-'. date("Y-m-d") . '.csv', 'w');
 foreach($all as $item){
     fputcsv($fp, array($item['email'], $item['name']) );
 }
