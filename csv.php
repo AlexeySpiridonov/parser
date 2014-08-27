@@ -37,7 +37,7 @@ $POST = array (
   'field_names[1]' => 'Name',
   'field_names[21]' => 'email_list_ids'
 );
-for ($i=0;$i<5;$i++){
+for ($i=0;$i<count($new_emails);$i++){
   $POST['data[' . $i .'][0]'] = $new_emails[$i];
   $POST['data[' . $i .'][1]'] = iconv('cp1251', 'utf-8', $new_names[$i]);
   $POST['data[' . $i .'][2]'] = $list;
