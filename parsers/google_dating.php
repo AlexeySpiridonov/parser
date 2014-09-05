@@ -24,7 +24,7 @@ class google_dating
 
     function getPage($num = 0)
     {
-        $num = $num * 10;
+        $num = $num * 100;
         echo $this->url . $num . "\n\n\n\n";
         $html = $this->http->get($this->url . $num);
         $this->http->referer = $this->url . $num;
