@@ -11,6 +11,8 @@ require_once dirname(__FILE__) . '/class/db.php';
 require_once __DIR__ . '/class/Helper.php';
 
 
+require_once __DIR__ . '/parsers/google_dating.php';
+
 //apple
 require_once dirname(__FILE__) . '/parsers/appadvice_updated_free.php';
 require_once dirname(__FILE__) . '/parsers/appadvice_updated_paid.php';
@@ -25,7 +27,6 @@ require_once __DIR__ . '/parsers/hh_vacancy_moderator.php';
 require_once __DIR__ . '/parsers/startupli_st.php';
 require_once __DIR__ . '/parsers/betalist_com.php';
 require_once __DIR__ . '/parsers/geekwire_com.php';
-require_once __DIR__ . '/parsers/google_dating.php';
 
 require_once __DIR__ . '/parsers/macradar_ru.php';
 macradar_ru::start();
