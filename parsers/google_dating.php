@@ -24,7 +24,7 @@ class google_dating
 
     function getPage($num = 0)
     {
-        $num = $num * 100;
+        $num = $num * 10;
         echo $this->url . $num . "\n\n\n\n";
         $html = $this->http->get($this->url . $num);
         $this->http->referer = $this->url . $num;
@@ -73,7 +73,7 @@ class google_dating
         for ($p = 0; $p <= 50; $p++) {
             $searchSite = $gl->getPage($p);
 
-            print_r($searchSite);
+           // print_r($searchSite);
 
             if ($searchSite) {
                 foreach ($searchSite as $url) {
