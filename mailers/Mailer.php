@@ -83,6 +83,35 @@ class Mailer
     }
     protected function validateHost($email)
     {
+        $f = array(
+            "abuse",
+            "support",
+            "example",
+            "germanysales",
+            "john.doe",
+            "johndoe",
+            "johnsmith",
+            "yourname",
+            "yourmail"
+        );
+        
+        $l = array(
+            "getsentry.com",
+            "2x.png",
+            "sentry2.aboutme-cloud.n",
+            "mysite.com",
+            "yoursite.com",
+            "2x.gif",
+            "incoming.interc",
+            "address.com",
+            "company.com",
+            "domain.com",
+            "email.com",
+            "example.com",
+            "hollywoodlife.com"
+        };
+        
+        //TODO logic
         return true;
     }
     protected function resolveHost($email)
