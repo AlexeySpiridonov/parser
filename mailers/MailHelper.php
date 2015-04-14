@@ -1,5 +1,8 @@
 <?php
 
+require_once(dirname(__FILE__).'/PHPMailer/SMTP.php');
+require_once(dirname(__FILE__).'/PHPMailer/PHPMailer.php');
+
 class MailHelper
 {
     public static function send(array $from, array $to, $subject, $htmlBody, $plainBody = '')

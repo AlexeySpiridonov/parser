@@ -1,12 +1,14 @@
 <?php
 
+date_default_timezone_set('Europe/Moscow');
+mb_internal_encoding("UTF-8");
 set_time_limit(0);
 
-require_once('/var/www/parser/mailers/Mailer.php');
+require_once(dirname(__FILE__) . '/Mailer.php');
 
 $date = date("Y-m-d");
 
-$filename = "/var/www/parser/mailers/test.csv";
-$template = "/var/www/parser/mailers/test.txt";
+$filename = dirname(__FILE__) . '/test.csv';
+$template = dirname(__FILE__) . '/test.php';
 
-Mailer::send($filename, $template);
+(new Mailer($filename, $template, "Test Subject"))->send();

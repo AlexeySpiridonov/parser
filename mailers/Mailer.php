@@ -1,17 +1,47 @@
 <?php
 
-require_once('MailHelper.php');
+require_once(dirname(__FILE__) . '/MailHelper.php');
 
 class Mailer
 {
     const FAIL_REASON_INVALID_NAME = "invalid_name";
     const FAIL_REASON_INVALID_HOST = "invalid_host";
     const FAIL_REASON_CANNOT_RESOLVE_HOST = "cannot_resolve_host";
+    const FAIL_REASON_CANNOT_SEND_EMAIL   = "cannot_send_email";
     const FAIL_REASON_UNKNOWN             = "unknown";
 
     protected $pathToEmailsFile;
     protected $pathToTemplate;
     protected $subject;
+
+    protected $filterByName = array(
+        "abuse",
+        "support",
+        "example",
+        "germanysales",
+        "john.doe",
+        "johndoe",
+        "johnsmith",
+        "yourname",
+        "yourmail"
+    );
+
+    protected $filterByHost = array(
+        "getsentry.com",
+        "2x.png",
+        "sentry2.aboutme-cloud.n",
+        "mysite.com",
+        "yoursite.com",
+        "2x.gif",
+        "incoming.interc",
+        "address.com",
+        "company.com",
+        "domain.com",
+        "email.com",
+        "example.com",
+        "hollywoodlife.com"
+    );
+
 
     public function __construct($pathToEmailsFile, $pathToTemplate, $subject)
     {
@@ -29,20 +59,20 @@ class Mailer
 
     public function send()
     {
-        $emails = parse_ini_file($this->pathToEmailsFile);
+        $emails = str_getcsv(file_get_contents($this->pathToEmailsFile), "\n");
         foreach ($emails as $email) {
             list($emailAddress, $emailName) = explode(",", $email);
 
             if (!$this->validateName($emailName)) {
-                $this->logFail($emailAddress, FAIL_REASON_INVALID_NAME);
+                $this->logFail($emailAddress, self::FAIL_REASON_INVALID_NAME);
                 continue;
             }
             if (!$this->validateHost($emailAddress)) {
-                $this->logFail($emailAddress, FAIL_REASON_INVALID_HOST);
+                $this->logFail($emailAddress, self::FAIL_REASON_INVALID_HOST);
                 continue;
             }
             if (!$this->resolveHost($emailAddress)) {
-                $this->logFail($emailAddress, FAIL_REASON_CANNOT_RESOLVE_HOST);
+                $this->logFail($emailAddress, self::FAIL_REASON_CANNOT_RESOLVE_HOST);
                 continue;
             }
 
@@ -55,7 +85,7 @@ class Mailer
             if ($this->_send($emailAddress, $emailContent)) {
                 $this->logSuccess($emailAddress);
             } else {
-                $this->logFail($emailAddress, FAIL_REASON_CANNOT_SEND_EMAIL);
+                $this->logFail($emailAddress, self::FAIL_REASON_CANNOT_SEND_EMAIL);
             }
 
             $this->sendLogs();
@@ -71,8 +101,10 @@ class Mailer
     protected function _send($email, $content)
     {
         try {
-            MailHelper::send("info@2hive.org", $email, $this->subject, $content, strip_tags($content));
+            //echo "Sending tpl: " . $content . "\n";
+            MailHelper::send(["info@2hive.org"], [['email' => $email]], $this->subject, $content, strip_tags($content));
         } catch (Exception $e) {
+            echo "Cannot send an email: {$e->getMessage()}\n";
             return false;
         }
 
@@ -87,51 +119,45 @@ class Mailer
 
     protected function validateName($name)
     {
+        foreach($this->filterByName as $nameToFilter) {
+            if (stripos($name, $nameToFilter) !== false) {
+                return false;
+            }
+        }
         return true;
     }
     protected function validateHost($email)
     {
-        $f = array(
-            "abuse",
-            "support",
-            "example",
-            "germanysales",
-            "john.doe",
-            "johndoe",
-            "johnsmith",
-            "yourname",
-            "yourmail"
-        );
-        
-        $l = array(
-            "getsentry.com",
-            "2x.png",
-            "sentry2.aboutme-cloud.n",
-            "mysite.com",
-            "yoursite.com",
-            "2x.gif",
-            "incoming.interc",
-            "address.com",
-            "company.com",
-            "domain.com",
-            "email.com",
-            "example.com",
-            "hollywoodlife.com"
-        );
-        
-        //TODO logic
+        list($name, $host) = explode('@', $email);
+
+        // Name
+        foreach($this->filterByName as $nameToFilter) {
+            if (stripos($name, $nameToFilter) !== false) {
+                return false;
+            }
+        }
+
+        // Host
+        foreach($this->filterByHost as $hostToFilter) {
+            if (stripos($host, $hostToFilter) !== false) {
+                return false;
+            }
+        }
+
         return true;
     }
 
     protected function resolveHost($email)
     {
         $host = preg_replace('/[^@]*@/', '', $email);
-        return ($host == gethostbyname($host));
+        $hostName = gethostbyname($host);
+        //echo "Resolving {$host} as {$hostName} \n";
+        return ($host != $hostName);
     }
 
-    protected function logFail($email, $reason = FAIL_REASON_UNKNOWN)
+    protected function logFail($email, $reason = self::FAIL_REASON_UNKNOWN)
     {
-        $content = "{$email} | " + $reason;
+        $content = "{$email} | " . $reason;
         file_put_contents("{$this->pathToEmailsFile}.fail.log", "{$content}\n", FILE_APPEND);
     }
     protected function logSuccess($email)
