@@ -203,11 +203,11 @@ class Mailer
     private function reasonToText($reason)
     {
         $reasons = [
-            FAIL_REASON_INVALID_NAME => "Invalid recipient name",
-            FAIL_REASON_INVALID_HOST => "Invalid email host",
-            FAIL_REASON_CANNOT_RESOLVE_HOST => "Cannot resolve Email host",
-            FAIL_REASON_CANNOT_SEND_EMAIL   => "Error while sending an email",
-            FAIL_REASON_UNKNOWN             => "Unknown error",
+            self::FAIL_REASON_INVALID_NAME => "Invalid recipient name",
+            self::FAIL_REASON_INVALID_HOST => "Invalid email host",
+            self::FAIL_REASON_CANNOT_RESOLVE_HOST => "Cannot resolve Email host",
+            self::FAIL_REASON_CANNOT_SEND_EMAIL   => "Error while sending an email",
+            self::FAIL_REASON_UNKNOWN             => "Unknown error",
         ];
 
         if (!isset($reasons[$reason])) {
