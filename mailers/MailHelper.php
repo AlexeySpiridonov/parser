@@ -23,6 +23,7 @@ class MailHelper
         $mail->Password = 'robot06539010';
         $mail->SMTPSecure = 'tls';
 
+        $mail->addReplyTo($from[0]);
         $mail->From = $from[0];
         if (isset($from[1])) {
             $mail->FromName = $from[1];

@@ -27,6 +27,7 @@ class Mailer
     );
 
     protected $filterByHost = array(
+        "noexist.999",
         "getsentry.com",
         "2x.png",
         "sentry2.aboutme-cloud.n",
@@ -55,6 +56,12 @@ class Mailer
         $this->pathToEmailsFile = $pathToEmailsFile;
         $this->pathToTemplate   = $pathToTemplate;
         $this->subject          = $subject;
+
+        /**
+         * Removing old Log Files if any...
+         */
+        @unlink($this->getSuccessLogFilename());
+        @unlink($this->getFailLogFilename());
     }
 
     public function send()
@@ -87,9 +94,12 @@ class Mailer
             } else {
                 $this->logFail($emailAddress, self::FAIL_REASON_CANNOT_SEND_EMAIL);
             }
-
-            $this->sendLogs();
         }
+
+        /**
+         * Sending result logs at the end
+         */
+        $this->sendLogs();
     }
 
     protected function parseTemplate($pathToTemplate, array $vars)
@@ -101,8 +111,7 @@ class Mailer
     protected function _send($email, $content)
     {
         try {
-            //echo "Sending tpl: " . $content . "\n";
-            MailHelper::send(["info@2hive.org"], [['email' => $email]], $this->subject, $content, strip_tags($content));
+            MailHelper::send(["info@2hive.org", "2Hive Content Moderation Service"], [['email' => $email]], $this->subject, $content, strip_tags($content));
         } catch (Exception $e) {
             echo "Cannot send an email: {$e->getMessage()}\n";
             return false;
@@ -113,8 +122,26 @@ class Mailer
 
     protected function sendLogs()
     {
-        $failLogFile    = "{$this->pathToEmailsFile}.fail.log";
-        $successLogFile = "{$this->pathToEmailsFile}.success.log";
+        $failLogFile    = $this->getFailLogFilename();
+        $successLogFile = $this->getSuccessLogFilename();
+
+        if (file_exists($failLogFile)) {
+            $failLog    = file_get_contents($failLogFile);
+            try {
+                MailHelper::send(["info@2hive.org", "2Hive Notification System"], [['email' => "info@2hive.org"]], "2Hive Fail Log", nl2br($failLog), $failLog);
+            } catch (Exception $e) {
+                echo "Cannot send Fail Log: {$e->getMessage()}\n";
+            }
+        }
+
+        if (file_exists($successLogFile)) {
+            $successLog = file_get_contents($successLogFile);
+            try {
+                MailHelper::send(["info@2hive.org", "2Hive Notification System"], [['email' => "info@2hive.org"]], "2Hive Success Log", nl2br($successLog), $successLog);
+            } catch (Exception $e) {
+                echo "Cannot send Success Log: {$e->getMessage()}\n";
+            }
+        }
     }
 
     protected function validateName($name)
@@ -151,17 +178,42 @@ class Mailer
     {
         $host = preg_replace('/[^@]*@/', '', $email);
         $hostName = gethostbyname($host);
-        //echo "Resolving {$host} as {$hostName} \n";
         return ($host != $hostName);
     }
 
     protected function logFail($email, $reason = self::FAIL_REASON_UNKNOWN)
     {
-        $content = "{$email} | " . $reason;
-        file_put_contents("{$this->pathToEmailsFile}.fail.log", "{$content}\n", FILE_APPEND);
+        $content = "{$email} | " . $this->reasonToText($reason);
+        file_put_contents($this->getFailLogFilename(), "{$content}\n", FILE_APPEND);
     }
     protected function logSuccess($email)
     {
-        file_put_contents("{$this->pathToEmailsFile}.success.log", "{$email}\n", FILE_APPEND);
+        file_put_contents($this->getSuccessLogFilename(), "{$email}\n", FILE_APPEND);
+    }
+
+    private function getFailLogFilename()
+    {
+        return "{$this->pathToEmailsFile}.fail.log";
+    }
+    private function getSuccessLogFilename()
+    {
+        return "{$this->pathToEmailsFile}.success.log";
+    }
+
+    private function reasonToText($reason)
+    {
+        $reasons = [
+            FAIL_REASON_INVALID_NAME => "Invalid recipient name",
+            FAIL_REASON_INVALID_HOST => "Invalid email host",
+            FAIL_REASON_CANNOT_RESOLVE_HOST => "Cannot resolve Email host",
+            FAIL_REASON_CANNOT_SEND_EMAIL   => "Error while sending an email",
+            FAIL_REASON_UNKNOWN             => "Unknown error",
+        ];
+
+        if (!isset($reasons[$reason])) {
+            return "";
+        }
+
+        return $reasons[$reason];
     }
 }
