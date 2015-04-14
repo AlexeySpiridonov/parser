@@ -109,11 +109,12 @@ class Mailer
             "email.com",
             "example.com",
             "hollywoodlife.com"
-        };
+        );
         
         //TODO logic
         return true;
     }
+
     protected function resolveHost($email)
     {
         $host = preg_replace('/[^@]*@/', '', $email);
