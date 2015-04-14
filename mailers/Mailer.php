@@ -57,6 +57,8 @@ class Mailer
             } else {
                 $this->logFail($emailAddress, FAIL_REASON_CANNOT_SEND_EMAIL);
             }
+
+            $this->sendLogs();
         }
     }
 
@@ -75,6 +77,12 @@ class Mailer
         }
 
         return true;
+    }
+
+    protected function sendLogs()
+    {
+        $failLogFile    = "{$this->pathToEmailsFile}.fail.log";
+        $successLogFile = "{$this->pathToEmailsFile}.success.log";
     }
 
     protected function validateName($name)
