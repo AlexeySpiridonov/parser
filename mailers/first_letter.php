@@ -7,8 +7,8 @@ return "
 <p> 
 <p>What do we offer?
 <p>There are 2 options for you to choose from:
-<br>A.  2Hive, as a SaaS solution, provides you with Web Tools such as API and SDK to assist in managing and controlling your own existing Moderation Team in a more efficient manner. 
-<br>B. 2Hive provides you a Moderation Team that monitors and corrects any problems with Content Moderation.
+<br>--- 2Hive, as a SaaS solution, provides you with Web Tools such as API and SDK to assist in managing and controlling your own existing Moderation Team in a more efficient manner. 
+<br>--- 2Hive provides you a Moderation Team that monitors and corrects any problems with Content Moderation.
 <p> 
 <p>Using our services to deal with your moderation needs will free you up and allow you to focus on what really matters to you and your business.
 <p>
