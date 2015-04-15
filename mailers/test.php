@@ -1,5 +1,5 @@
 <?php
-return ""
+return "
 <p>Hi, {$name},
 <p>My name is Alex, I am from 2Hive, a company which provides SaaS for Content Moderation.  
  <p>
