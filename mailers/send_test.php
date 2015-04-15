@@ -11,4 +11,4 @@ $date = date("Y-m-d");
 $filename = dirname(__FILE__) . '/test.csv';
 $template = dirname(__FILE__) . '/test.php';
 
-(new Mailer($filename, $template, "Test Subject"))->send();
+(new Mailer($filename, $template, "Content Moderation Cloud Service"))->send();
