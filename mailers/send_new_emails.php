@@ -7,9 +7,8 @@ set_time_limit(0);
 require_once(dirname(__FILE__) . '/Mailer.php');
 
 $date = date("Y-m-d");
+$filename = "/var/www/parser/reports/list-dif-{$date}.csv";
+$template = "first_letter.php";
 
-$filename = "list-dif-{$date}.csv";
-$template = "week_later";
-
-$mailer = new Mailer($filename, $template, "New emails Subject");
+$mailer = new Mailer($filename, $template, "Content Moderation Cloud Service");
 $mailer->send();
