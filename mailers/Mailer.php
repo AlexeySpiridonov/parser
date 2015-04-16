@@ -17,6 +17,7 @@ class Mailer
     protected $filterByName = array(
         "abuse",
         "support",
+	"help",
         "example",
         "germanysales",
         "john.doe",
