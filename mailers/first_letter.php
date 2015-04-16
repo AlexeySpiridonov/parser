@@ -1,7 +1,7 @@
 <?php
 return "
 <p>Hi,
-<p>My name is Alex, I am from 2Hive, a company which provides Content Moderation solution as a SaaS.  
+<p>My name is Alex, I am  CEO at 2Hive, our company provides Content Moderation solution as a SaaS.
  <p>
 <p>2Hive was created to solve issues with moderation for other companies in a simple, easy and accurate way. We provide the perfect balance between efficiency and low cost while monitoring and helping you remove any undesired content from your project.
 <p> 
