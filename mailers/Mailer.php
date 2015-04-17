@@ -1,7 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/MailHelper.php');
-include(dirname(__FILE__) . '../PRFLR.SDK.PHP/prflr.php');
+include(dirname(__FILE__) . '/../PRFLR.SDK.PHP/prflr.php');
 
 class Mailer
 {
