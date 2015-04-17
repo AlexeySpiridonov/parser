@@ -140,7 +140,7 @@ class Mailer
             $Log    = "Fail:\n" . file_get_contents($failLogFile);
         }
         if (file_exists($successLogFile)) {
-            $Log = $log . "\n\nSuccess:\n" . file_get_contents($successLogFile);
+            $Log = $Log . "\n\nSuccess:\n" . file_get_contents($successLogFile);
         }
 
         try {
