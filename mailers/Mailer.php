@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/MailHelper.php');
+include(dirname(__FILE__) . '../PRFLR.SDK.PHP/prflr.php');
 
 class Mailer
 {
@@ -14,7 +15,7 @@ class Mailer
     protected $pathToTemplate;
     protected $subject;
 
-    protected $filterByName = array(
+    protected $filterByUser = array(
         "abuse",
         "support",
 	"help",
@@ -47,6 +48,9 @@ class Mailer
 
     public function __construct($pathToEmailsFile, $pathToTemplate, $subject)
     {
+    	
+	PRFLR::init('hive', 'tOa0U4uBphHNQZUO7yWajR1SVoUmUWR1');
+	
         if (!file_exists($pathToEmailsFile)) {
             throw new Exception("No file with emails: " . $pathToEmailsFile);
         }
@@ -69,6 +73,7 @@ class Mailer
     {
         $emails = str_getcsv(file_get_contents($this->pathToEmailsFile), "\n");
         foreach ($emails as $email) {
+      		PRFLR::Begin('mailer.send');
             list($emailAddress, $emailName) = explode(",", $email);
 
             if (!$this->validateName($emailName)) {
@@ -92,9 +97,13 @@ class Mailer
 
             if ($this->_send($emailAddress, $emailContent)) {
                 $this->logSuccess($emailAddress);
+                $reason = "success";
             } else {
                 $this->logFail($emailAddress, self::FAIL_REASON_CANNOT_SEND_EMAIL);
+                $reason = "fail";
             }
+            PRFLR::End('mailer.send', $reason);
+
         }
 
         /**
@@ -126,32 +135,23 @@ class Mailer
         $failLogFile    = $this->getFailLogFilename();
         $successLogFile = $this->getSuccessLogFilename();
 
-        if (file_exists($failLogFile)) {
-            $failLog    = file_get_contents($failLogFile);
-            try {
-                MailHelper::send(["info@2hive.org", "2Hive Notification System"], [['email' => "info@2hive.org"]], "2Hive Fail Log", nl2br($failLog), $failLog);
-            } catch (Exception $e) {
-                echo "Cannot send Fail Log: {$e->getMessage()}\n";
-            }
+	$Log = '';
+	if (file_exists($failLogFile)) {
+            $Log    = "Fail:\n" . file_get_contents($failLogFile);
+        }
+        if (file_exists($successLogFile)) {
+            $Log = $log . "\n\nSuccess:\n" . file_get_contents($successLogFile);
         }
 
-        if (file_exists($successLogFile)) {
-            $successLog = file_get_contents($successLogFile);
-            try {
-                MailHelper::send(["info@2hive.org", "2Hive Notification System"], [['email' => "info@2hive.org"]], "2Hive Success Log", nl2br($successLog), $successLog);
-            } catch (Exception $e) {
+        try {
+                MailHelper::send(["info@2hive.org", "2Hive Notification System"], [['email' => "info@2hive.org"]], "2Hive Mailer Log", nl2br($Log), $Log);
+        } catch (Exception $e) {
                 echo "Cannot send Success Log: {$e->getMessage()}\n";
-            }
         }
     }
 
     protected function validateName($name)
     {
-        foreach($this->filterByName as $nameToFilter) {
-            if (stripos($name, $nameToFilter) !== false) {
-                return false;
-            }
-        }
         return true;
     }
     protected function validateHost($email)
@@ -159,7 +159,7 @@ class Mailer
         list($name, $host) = explode('@', $email);
 
         // Name
-        foreach($this->filterByName as $nameToFilter) {
+        foreach($this->filterByUser as $nameToFilter) {
             if (stripos($name, $nameToFilter) !== false) {
                 return false;
             }
@@ -177,8 +177,10 @@ class Mailer
 
     protected function resolveHost($email)
     {
+    	PRFLR::Begin('mailer.resolveHost');
         $host = preg_replace('/[^@]*@/', '', $email);
         $hostName = gethostbyname($host);
+  	PRFLR::End('mailer.resolveHost');
         return ($host != $hostName);
     }
 
