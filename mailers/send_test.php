@@ -9,6 +9,6 @@ require_once(dirname(__FILE__) . '/Mailer.php');
 $date = date("Y-m-d");
 
 $filename = dirname(__FILE__) . '/test.csv';
-$template = dirname(__FILE__) . '/test.php';
+$template = dirname(__FILE__) . '/first_letter.php';
 
-(new Mailer($filename, $template, "Content Moderation Cloud Service"))->send();
+(new Mailer($filename, $template, "Content Moderation Test Mailer"))->send();
