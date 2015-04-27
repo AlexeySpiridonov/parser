@@ -121,7 +121,7 @@ class Mailer
     protected function _send($email, $content)
     {
         try {
-            MailHelper::send(["info@2hive.org", "2Hive Content Moderation Service"], [['email' => $email]], $this->subject, $content, strip_tags($content));
+            MailHelper::send(["info@2hive.org", "2Hive"], [['email' => $email]], $this->subject, $content, strip_tags($content));
         } catch (Exception $e) {
             echo "Cannot send an email: {$e->getMessage()}\n";
             return false;
