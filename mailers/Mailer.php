@@ -73,7 +73,11 @@ class Mailer
     {
         $emails = str_getcsv(file_get_contents($this->pathToEmailsFile), "\n");
         foreach ($emails as $email) {
-      		PRFLR::Begin('mailer.send');
+        	
+            sleep(30);
+            
+      	    PRFLR::Begin('mailer.send');
+      	    
             list($emailAddress, $emailName) = explode(",", $email);
 
             if (!$this->validateName($emailName)) {
