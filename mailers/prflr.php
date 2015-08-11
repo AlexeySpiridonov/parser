@@ -1,6 +1,6 @@
 <?php
 return "
-<br>Hello *username*!
+<br>Hello!
 <br>
 <br>If you are a programmer this can be interesting for you - A convenient SaaS helping you to analyze performance of web, mobile and desktop applications.
 <br>
