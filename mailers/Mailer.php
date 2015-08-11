@@ -72,9 +72,10 @@ class Mailer
     public function send()
     {
         $emails = str_getcsv(file_get_contents($this->pathToEmailsFile), "\n");
+        $i=0;
         foreach ($emails as $email) {
         	
-            sleep(30);
+            sleep(15);
             
       	    PRFLR::Begin('mailer.send');
       	    
@@ -107,6 +108,8 @@ class Mailer
                 $reason = "fail";
             }
             PRFLR::End('mailer.send', $reason);
+            if($i==1000) { $this->sendLogs(); $i=0; };
+            $i++;
 
         }
 
@@ -125,7 +128,7 @@ class Mailer
     protected function _send($email, $content)
     {
         try {
-            MailHelper::send(["info@2hive.org", "2Hive"], [['email' => $email]], $this->subject, $content, strip_tags($content));
+            MailHelper::send(["robot@prflr.org", "PRFLR"], [['email' => $email]], $this->subject, $content, strip_tags($content));
         } catch (Exception $e) {
             echo "Cannot send an email: {$e->getMessage()}\n";
             return false;
@@ -148,7 +151,7 @@ class Mailer
         }
 
         try {
-                MailHelper::send(["info@2hive.org", "2Hive Notification System"], [['email' => "info@2hive.org"]], "2Hive Mailer Log", nl2br($Log), $Log);
+                MailHelper::send(["robot@prflr.org", "PRFLR"], [['email' => "info@2hive.org"]], "PRFLR Mailer Log", nl2br($Log), $Log);
         } catch (Exception $e) {
                 echo "Cannot send Success Log: {$e->getMessage()}\n";
         }
