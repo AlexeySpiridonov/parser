@@ -17,6 +17,7 @@ class Mailer
 
     protected $filterByUser = array(
         "abuse",
+        "admin",
         "support",
 	"help",
         "example",
@@ -25,6 +26,8 @@ class Mailer
         "johndoe",
         "johnsmith",
         "yourname",
+        "20info",
+        "90x60",
         "yourmail"
     );
 
@@ -32,6 +35,7 @@ class Mailer
         "noexist.999",
         "getsentry.com",
         "2x.png",
+        "b.com",
         "sentry2.aboutme-cloud.n",
         "mysite.com",
         "yoursite.com",
