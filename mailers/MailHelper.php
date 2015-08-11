@@ -18,9 +18,13 @@ class MailHelper
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = 587;
         $mail->SMTPAuth = true;
+        
         $mail->Username = 'robot@prflr.org';
+        $mail->Password = 'robot065390101';
+
         //$mail->Username = 'no-reply@2hive.org';
-        $mail->Password = 'robot06539010';
+        //$mail->Password = 'robot06539010';
+        
         $mail->SMTPSecure = 'tls';
 
         $mail->addReplyTo($from[0]);
