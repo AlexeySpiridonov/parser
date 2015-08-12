@@ -78,8 +78,10 @@ class Mailer
         $emails = str_getcsv(file_get_contents($this->pathToEmailsFile), "\n");
         $i=0;
         foreach ($emails as $email) {
+        
+            if ($email!='ask.bulkysport@gmail.com' && $i==0) continue;
         	
-            sleep(15);
+            sleep(30);
             
       	    PRFLR::Begin('mailer.send');
       	    
