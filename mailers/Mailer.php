@@ -9,6 +9,7 @@ class Mailer
     const FAIL_REASON_INVALID_HOST = "invalid_host";
     const FAIL_REASON_CANNOT_RESOLVE_HOST = "cannot_resolve_host";
     const FAIL_REASON_CANNOT_SEND_EMAIL   = "cannot_send_email";
+    const FAIL_REASON_SKIP             = "skip";
     const FAIL_REASON_UNKNOWN             = "unknown";
 
     protected $pathToEmailsFile;
@@ -79,14 +80,19 @@ class Mailer
         $i=0;
         foreach ($emails as $email) {
         
-            if ($email!='ask.bulkysport@gmail.com' && $i==0) continue;
+            list($emailAddress, $emailName) = explode(",", $email);
+
+	     //huk for skip
+            if ($emailAddress!='ask.bulkysport@gmail.com' && $i==0) {
+            	 $this->logSuccess($emailAddress);
+        	 $this->logFail($emailAddress, self::FAIL_REASON_SKIP);
+            	continue;
+            }
         	
             sleep(30);
             
       	    PRFLR::Begin('mailer.send');
       	    
-            list($emailAddress, $emailName) = explode(",", $email);
-
             if (!$this->validateName($emailName)) {
                 $this->logFail($emailAddress, self::FAIL_REASON_INVALID_NAME);
                 continue;
