@@ -89,7 +89,7 @@ class Mailer
             	continue;
             }
         	
-            sleep(30);
+            sleep(70);
             
       	    PRFLR::Begin('mailer.send');
       	    
