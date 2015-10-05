@@ -10,7 +10,7 @@ return "
 
 <p> - The other approach we offer is to completely outsource the content moderation needs to our company. The rates and conditions are highly competitive, and it is really easy to track the efficiency of our work. 
 
-<p>In any case - there are no any set up fees, nor any hidden charges. In addition, there is a free paln  available to test our solution. 
+<p>In any case - there are no any set up fees, nor any hidden charges. In addition, there is a free plan available to test our solution. 
 
 <p>For any further information about 2Hive solution and team please contact us directly, or visit our web site for the more details. 
 
