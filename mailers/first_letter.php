@@ -6,7 +6,7 @@ return "
 
 <p>We offer a solution which helps moderating any sorts of User Generated Content in a simple and efficient way. This solution can be used in two ways – web tools only, and a complete set of personnel and instruments for moderating user generated content in your project.
 
-<p> - The first approach helps to dramatically increase the efficiency of your own moderation team with some pr-automation and content sorting techniques implemented, our solution will only needs to be connected to your platform using available SDK and API. 
+<p> - The first approach helps to dramatically increase the efficiency of your own moderation team with some pre-automation and content sorting techniques implemented, our solution will only needs to be connected to your platform using available SDK and API. 
 
 <p> - The other approach we offer is to completely outsource the content moderation needs to our company. The rates and conditions are highly competitive, and it is really easy to track the efficiency of our work. 
 
