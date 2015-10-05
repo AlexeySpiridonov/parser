@@ -4,7 +4,7 @@ return "
 
 <p>My name is Alex, I am  CEO at 2Hive LLC, our company provides Content Moderation solution as a SaaS.
 
-<p>We offer a solution which helps moderating any sorts of User Generated Content in a simple and efficient way. This solution can be used in two ways – web tools only, and a complete set of personnel and instruments for moderating user generated content in your project.
+<p>We offer a solution which helps moderating any sorts of User Generated Content in a simple and efficient way. This solution can be used in two ways - web tools only, and a complete set of personnel and instruments for moderating user generated content in your project.
 
 <p> - The first approach helps to dramatically increase the efficiency of your own moderation team with some pre-automation and content sorting techniques implemented, our solution will only needs to be connected to your platform using available SDK and API. 
 
