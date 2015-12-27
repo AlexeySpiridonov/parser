@@ -37,6 +37,8 @@ class Mailer
         "domain.com",
         "email.com",
         "example.com",
+        "refinery29.com",
+        "refinery29",
         "hollywoodlife.com"
     );
     public function __construct($pathToEmailsFile, $pathToTemplate, $subject)
