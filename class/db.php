@@ -116,7 +116,7 @@ class db
 
     function getReport()
     {
-        $sql = "SELECT distinct `email`, `name`  FROM `items` where `update` > NOW() - INTERVAL 1 DAY and email!=''";
+        $sql = "SELECT distinct `email`, `name`, `id`  FROM `items` where `update` > NOW() - INTERVAL 1 DAY and email!=''";
 
         return $this->selexec($sql);
     }

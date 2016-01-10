@@ -19,10 +19,9 @@ return "
 <br>Kind regards, Alex 
 <br>info@2hive.org
 <br>http://2hive.org
+
+<br/><br/>
+
+<img width='1' height='1' src='http://2hive.org/mailer/{$id}.gif' />
 ";
-/*
-return
-    "This is \$email var: {$email}<br/>".
-    "This is \$name var: {$name}<br/>";
-*/
 ?>

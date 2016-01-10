@@ -15,6 +15,6 @@ $db = new db;
 $all = $db->getReport();
 $fp = fopen( dirname(__FILE__) . '/reports/list-dif-'. date("Y-m-d") . '.csv', 'w');
 foreach($all as $item){
-    fputcsv($fp, array($item['email'], $item['name']) );
+    fputcsv($fp, array($item['email'], $item['name'], $item['id']));
 }
 
