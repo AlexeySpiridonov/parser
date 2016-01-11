@@ -2,7 +2,7 @@
 return "
 <p>Greetings,
 
-<p>My name is Alex, I am  CEO at 2Hive LLC, our company provides Content Moderation solution as a SaaS.
+<p>My name is Alex, I am CEO at 2Hive LLC, our company provides Content Moderation solution as a SaaS.
 
 <p>We offer a solution which helps moderating any sorts of User Generated Content in a simple and efficient way. This solution can be used in two ways - web tools only, and a complete set of personnel and instruments for moderating user generated content in your project.
 
@@ -22,6 +22,6 @@ return "
 
 <br/><br/>
 
-<img width='1' height='1' src='http://2hive.org/mailer/{$id}.gif' />
+<img border='0' width='1' height='1' src='http://2hive.org/mailer/{$id}.gif' />
 ";
 ?>
