@@ -15,7 +15,7 @@ func InitDB() (*mgo.Session, error) {
 	log.Info("Connect to DB: " + config.Get("dbHost") + " " + config.Get("dbName"))
 	mongo, err := mgo.Dial(config.Get("dbHost"))
 	if err != nil {
-		log.Panic("Cant't connect to mongoDB. Server is stopped")
+		log.Panic("Can't connect to mongoDB. Server is stopped")
 	}
 	log.Info("DB ok")
 	db.Set(mongo, mongo.DB(config.Get("dbName")))
