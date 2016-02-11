@@ -30,7 +30,7 @@ func main() {
 		if err != nil {
 			continue
 		}
-		weight := getWeight(page)
+		weight := getWeight(page, text)
 
 		if weight > 0 {
 
@@ -43,7 +43,7 @@ func main() {
 			//Urls
 			urls := getURLs(text)
 			for _, url := range urls {
-				db.SavePage(db.Page{Url: url, Weight: weight, Status: 0, Timestamp: db.GetTimestamp()})
+				db.SavePage(db.Page{Url: url, Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
 			}
 
 		} else {
@@ -57,8 +57,15 @@ func main() {
 
 }
 
-func getWeight(page db.Page) int {
+func getWeight(page db.Page, text string) int {
 	//TODO
+
+	/*
+	  сравниваем url, если он с другого домена, то поднимаем вес
+	  если есть стоп слова, понижаем вес
+	  если есть  run слова,  повышаем вес
+	*/
+
 	return 1
 }
 

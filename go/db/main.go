@@ -12,11 +12,12 @@ type Email struct {
 }
 
 type Page struct {
-	Id        bson.ObjectId `json:"code,omitempty" bson:"_id,omitempty"`
-	Url       string        `json:"url"`
-	Weight    int           `json:"weight"`
-	Status    int           `json:"status"`
-	Timestamp int           `json:"timestamp"`
+	Id           bson.ObjectId `json:"code,omitempty" bson:"_id,omitempty"`
+	Url          string        `json:"url"`
+	Parent       string        `json:"parent"`
+	ParentWeight int           `json:"parentweight"`
+	Status       int           `json:"status"`
+	Timestamp    int           `json:"timestamp"`
 }
 
 func GetPageFromDB() (Page, error) {
