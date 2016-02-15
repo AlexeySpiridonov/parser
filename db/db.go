@@ -39,30 +39,44 @@ func (p Page) SetStatus(status int) {
 	}
 }
 
-func SavePage(page Page) {
+func SavePage(page Page) (bool, err) {
 	log.Debug("Save", page)
-	p := Page{}
+
+	alreadyExists := false
+
+	p   := Page{}
 	err := context.Db.C("page").Find(bson.M{"url": page.Url}).One(&p)
+
 	if err != nil {
 		err = context.Db.C("page").Insert(page)
 		if err != nil {
 			refresh(err)
 		}
 	} else {
+		alreadyExists = true
 		log.Debug("Already exist", page)
 	}
+
+	return alreadyExists, err
 }
 
-func SaveEmail(email Email) {
+func SaveEmail(email Email) (bool, err) {
 	log.Debug("Save", email)
-	e := Email{}
+
+	alreadyExists := false
+
+	e   := Email{}
 	err := context.Db.C("email").Find(bson.M{"email": email.Email}).One(&e)
+
 	if err != nil {
 		err = context.Db.C("emal").Insert(email)
 		if err != nil {
 			refresh(err)
 		}
 	} else {
+		alreadyExists = true
 		log.Debug("Already exist", email)
 	}
+
+	return alreadyExists, err
 }
