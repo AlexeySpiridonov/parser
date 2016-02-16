@@ -15,7 +15,7 @@ type Page struct {
 	Id           bson.ObjectId `json:"code,omitempty" bson:"_id,omitempty"`
 	Url          string        `json:"url"`
 	Parent       string        `json:"parent"`
-	ParentWeight int           `json:"parentWeight"`
+	ParentWeight int           `json:"parentweight"`
 	Status       int           `json:"status"`
 	Timestamp    int           `json:"timestamp"`
 }
@@ -23,7 +23,7 @@ type Page struct {
 func GetPageFromDB() (*Page, error) {
 	page := &Page{}
 	//TODO  add weight check >0
-	err := context.Db.C("page").Find(bson.M{"status": 0, "parentWeight":bson.M{"$gt": 0}}).Sort("timestamp").One(&page)
+	err := context.Db.C("page").Find(bson.M{"status": 0, "parentweight":bson.M{"$gt": 0}}).Sort("timestamp").One(&page)
 	if err != nil {
 		refresh(err)
 	}

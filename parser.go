@@ -7,10 +7,10 @@ import (
 	"github.com/op/go-logging"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"runtime"
 	"time"
 	"strings"
-	"net/url"
 	"github.com/mvdan/xurls"
 	"sync"
 	//htmlparser "github.com/calbucci/go-htmlparser"
@@ -73,7 +73,7 @@ func processPage(page *db.Page) {
 		return
 	}
 
-	weight := getPageWeight(page, pageHTML)
+	weight := getPageWeight(page, strings.ToLower(pageHTML))
 
 	if weight > 0 {
 		//emails
@@ -115,13 +115,18 @@ func getPageWeight(page *db.Page, content string) int {
 	  если есть  run слова,  повышаем вес
 	*/
 
-	if parent.Host != current.Host {
+	if strings.ToLower(parent.Host) != strings.ToLower(current.Host) {
 		weight++
 	}
 
-	urlStopWords := []string{"twitter.com", "facebook.com", "flickr.com", "example.com", "simple.com", "domain.com"}
+	urlStopWords := []string{
+		"twitter", "facebook", "flickr", "example", "simple", "domain",
+		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
+		"schema.org", "cloudfront.net", 
+		".jpg", ".png", ".gif",
+	}
 	for _, word := range urlStopWords {
-		if current.Host == word {
+		if strings.Contains(strings.ToLower(current.Host), word) {
 			weight--
 		}
 	}
@@ -134,7 +139,7 @@ func getPageWeight(page *db.Page, content string) int {
 		}
 	}
 
-	contentRunWords := []string{"UGC", "hippster", "social", "communication"}
+	contentRunWords := []string{"hippster", "social", "communication"}
 	for _, word := range contentRunWords {	
 		// @TODO: implement!
 		if strings.Contains(content, word) {
