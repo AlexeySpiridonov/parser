@@ -1,7 +1,7 @@
 package main
 
 import (
-	"parser.2hive.org/config"
+	"github.com/AlexeySpiridonov/goapp-config"
 	"parser.2hive.org/db"
 	"parser.2hive.org/init"
 	"github.com/op/go-logging"
@@ -41,8 +41,8 @@ func main() {
 
 func getContentByURL(url string) {
 
-	//doc, err := goquery.NewDocument("http://moscow.startups-list.com/") 
-	doc, err := goquery.NewDocument(url) 
+	//doc, err := goquery.NewDocument("http://moscow.startups-list.com/")
+	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		log.Error("Load url error" + err.Error())
 		return
