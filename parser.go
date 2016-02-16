@@ -51,7 +51,7 @@ func process(i int) {
 		page, err := db.GetPageFromDB()
 		if err != nil {
 			// Delete this page? Mark as Error?
-			time.Sleep(250 * time.Millisecond)
+			time.Sleep(500 * time.Millisecond)
 			continue
 		}
 
