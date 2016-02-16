@@ -12,15 +12,18 @@ import (
 	"strings"
 	"net/url"
 	"github.com/mvdan/xurls"
+	"sync"
 	//htmlparser "github.com/calbucci/go-htmlparser"
 	//"github.com/PuerkitoBio/goquery"
 )
 
 var log = logging.MustGetLogger("main")
+var wg sync.WaitGroup
 
 func main() {
 	ini.InitLogs()
 	ini.InitGoRelic()
+
 	mongo, _ := ini.InitDB()
 	defer mongo.Close()
 
@@ -28,13 +31,22 @@ func main() {
 
 	maxRoutines := 1
 
+	wg.Add(maxRoutines)
+
 	for i := 0; i < maxRoutines; i++ {
-		log.Debug("Start worker #", i+1)
-		go process()
+		go process(i)
 	}
+
+	wg.Wait()
+
+	log.Debug("All workers are finished! Exit!!!")
 }
 
-func process() {
+func process(i int) {
+	log.Debug("Start worker #", i+1)
+
+	defer wg.Done()
+
 	for {
 		page, err := db.GetPageFromDB()
 		if err != nil {
@@ -51,6 +63,8 @@ func process() {
 
 		time.Sleep(1 * time.Second)
 	}
+
+	log.Debug("End worker #", i+1)
 }
 
 func processPage(page *db.Page) {
