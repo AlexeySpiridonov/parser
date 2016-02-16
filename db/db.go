@@ -15,15 +15,15 @@ type Page struct {
 	Id           bson.ObjectId `json:"code,omitempty" bson:"_id,omitempty"`
 	Url          string        `json:"url"`
 	Parent       string        `json:"parent"`
-	ParentWeight int           `json:"parentweight"`
+	ParentWeight int           `json:"parentWeight"`
 	Status       int           `json:"status"`
 	Timestamp    int           `json:"timestamp"`
 }
 
-func GetPageFromDB() (Page, error) {
-	page := Page{}
+func GetPageFromDB() (*Page, error) {
+	page := &Page{}
 	//TODO  add weight check >0
-	err := context.Db.C("page").Find(bson.M{"status": 0}).Sort("timestamp").One(&page)
+	err := context.Db.C("page").Find(bson.M{"status": 0, "weight":bson.M{"$gt": 0}}).Sort("timestamp").One(&page)
 	if err != nil {
 		refresh(err)
 	}
@@ -39,12 +39,12 @@ func (p Page) SetStatus(status int) {
 	}
 }
 
-func SavePage(page Page) (bool, err) {
+func SavePage(page *Page) (bool, error) {
 	log.Debug("Save", page)
 
 	alreadyExists := false
 
-	p   := Page{}
+	p   := &Page{}
 	err := context.Db.C("page").Find(bson.M{"url": page.Url}).One(&p)
 
 	if err != nil {
@@ -60,12 +60,12 @@ func SavePage(page Page) (bool, err) {
 	return alreadyExists, err
 }
 
-func SaveEmail(email Email) (bool, err) {
+func SaveEmail(email *Email) (bool, error) {
 	log.Debug("Save", email)
 
 	alreadyExists := false
 
-	e   := Email{}
+	e   := &Email{}
 	err := context.Db.C("email").Find(bson.M{"email": email.Email}).One(&e)
 
 	if err != nil {

@@ -1,17 +1,18 @@
 package main
 
 import (
-	"parser.2hive.org/config"
+	//"parser.2hive.org/config"
 	"parser.2hive.org/db"
-	"parser.2hive.org/init"
+	//"parser.2hive.org/init"
 	"github.com/op/go-logging"
 	"io/ioutil"
 	"net/http"
 	"runtime"
 	"time"
 	"net/url"
+	"github.com/mvdan/xurls"
 	//htmlparser "github.com/calbucci/go-htmlparser"
-	"github.com/PuerkitoBio/goquery"
+	//"github.com/PuerkitoBio/goquery"
 )
 
 var log = logging.MustGetLogger("main")
@@ -24,65 +25,72 @@ func main() {
 
 	log.Info("GOMAXPROCS:%d\n", runtime.GOMAXPROCS(0))
 
+	maxRoutines := 1
+
+	for i := 0; i < maxRoutines; i++ {
+		go process()
+	}
+}
+
+func process() {
 	for {
 		page, err := db.GetPageFromDB()
 		if err != nil {
-			// Delete this page? Mark as Error? Infinite loop!
+			// Delete this page? Mark as Error?
+			time.Sleep(250 * time.Millisecond)
 			continue
 		}
 
-		go getContentByURL(page.Url)
-
+		// Set as Processed
 		page.SetStatus(1)
+
+		// Process!
+		processPage(page)
 
 		time.Sleep(1 * time.Second)
 	}
 }
 
-func getContentByURL(url string) {
-
-	//doc, err := goquery.NewDocument("http://moscow.startups-list.com/") 
-	doc, err := goquery.NewDocument(url) 
+func processPage(page *db.Page) {
+	pageHTML, err := loadHtml(page.Url)
 	if err != nil {
-		log.Error("Load url error" + err.Error())
 		return
 	}
 
-	doc.Find("a").Each(func(i int, s *goquery.Selection) {
-		href, exists := s.Attr("href")
+	weight := getPageWeight(page, pageHTML)
 
-		if !exists {
-			log.Error("href is empty, skipping...")
-			return
+	if weight > 0 {
+		//emails
+		emails := getEmails(pageHTML)
+		for _, email := range emails {
+			db.SaveEmail(&db.Email{Email: email, Url: page.Url, Timestamp: db.GetTimestamp()})
 		}
 
-		weight := getWeight(url, href)
-
-		if weight > 0 {
-			// Save
-			alreadyExists, err := db.SavePage(&db.Page{Url: href, Parent: url, ParentWeight: weight, Status: 1, Timestamp: db.GetTimestamp()})
-
-			// And Parse. if New!
-			if !alreadyExists {
-				go getContentByURL(url)
-			}
-		} else {
-			log.Debug("Skip page with low weight", page)
+		//Urls
+		urls := getURLs(pageHTML)
+		for _, url := range urls {
+			db.SavePage(&db.Page{Url: url, Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
 		}
-	})
+
+	} else {
+		log.Debug("Skip page with low weight", page)
+	}
 }
 
-//func getWeight(page db.Page, text string) int {
-func getWeight(parentUrl, currentUrl string) int {
+func getPageWeight(page *db.Page, content string) int {
 	// @TODO
 
-	weight := 0
+	// Initial Weight - is the Parent Weight!
+	weight := page.ParentWeight
 
-	parent  := url.Parse(parentUrl)
-	current := url.Parse(currentUrl)
+	parent, err  := url.Parse(page.Parent)
+	if err != nil {
+		return weight
+	}
 
-	if parent.Host != current.Host {
-		weight++
+	current, err := url.Parse(page.Url)
+	if err != nil {
+		return weight
 	}
 
 	/*
@@ -91,28 +99,40 @@ func getWeight(parentUrl, currentUrl string) int {
 	  если есть  run слова,  повышаем вес
 	*/
 
-	stopWords := []string{"twitter.com", "facebook.com", "flickr.com" "example.com", "simple.com", "domain.com"}
+	if parent.Host != current.Host {
+		weight++
+	}
 
-	for word := range stopWords {
+	urlStopWords := []string{"twitter.com", "facebook.com", "flickr.com", "example.com", "simple.com", "domain.com"}
+	for _, word := range urlStopWords {
 		if current.Host == word {
 			weight--
 		}
 	}
 
+	contentStopWords := []string{"development", "kitchen", "sex", "porn"}
+	for _, word := range contentStopWords {	
+		// @TODO: implement!
+	}
+
+	contentRunWords := []string{"UGC", "hippster", "social", "communication"}
+	for _, word := range contentRunWords {	
+		// @TODO: implement!
+	}
+
 	return weight
 }
 
-func getEmails(text string) []string {
+func getEmails(content string) []string {
 	r := []string{}
 	return r
 }
 
-func getURLs(text string) []string {
-	r := []string{}
-	return r
+func getURLs(content string) []string {
+	return xurls.Relaxed.FindAllString(content, -1)
 }
 
-/*func loadHtml(url string) (string, error) {
+func loadHtml(url string) (string, error) {
 	log.Debug("Load url", url)
 
 	response, err := http.Get(url)
@@ -125,4 +145,4 @@ func getURLs(text string) []string {
 		content, err := ioutil.ReadAll(response.Body)
 		return string(content), err
 	}
-}*/
+}
