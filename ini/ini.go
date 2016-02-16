@@ -1,4 +1,4 @@
-package init
+package ini
 
 import (
 	"parser.2hive.org/config"

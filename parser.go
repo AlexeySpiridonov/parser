@@ -3,12 +3,13 @@ package main
 import (
 	//"parser.2hive.org/config"
 	"parser.2hive.org/db"
-	//"parser.2hive.org/init"
+	"parser.2hive.org/ini"
 	"github.com/op/go-logging"
 	"io/ioutil"
 	"net/http"
 	"runtime"
 	"time"
+	"strings"
 	"net/url"
 	"github.com/mvdan/xurls"
 	//htmlparser "github.com/calbucci/go-htmlparser"
@@ -18,9 +19,9 @@ import (
 var log = logging.MustGetLogger("main")
 
 func main() {
-	init.InitLogs()
-	init.InitGoRelic()
-	mongo, _ := init.InitDB()
+	ini.InitLogs()
+	ini.InitGoRelic()
+	mongo, _ := ini.InitDB()
 	defer mongo.Close()
 
 	log.Info("GOMAXPROCS:%d\n", runtime.GOMAXPROCS(0))
@@ -28,6 +29,7 @@ func main() {
 	maxRoutines := 1
 
 	for i := 0; i < maxRoutines; i++ {
+		log.Debug("Start worker #", i+1)
 		go process()
 	}
 }
@@ -111,13 +113,19 @@ func getPageWeight(page *db.Page, content string) int {
 	}
 
 	contentStopWords := []string{"development", "kitchen", "sex", "porn"}
-	for _, word := range contentStopWords {	
+	for _, word := range contentStopWords {
 		// @TODO: implement!
+		if strings.Contains(content, word) {
+			weight--
+		}
 	}
 
 	contentRunWords := []string{"UGC", "hippster", "social", "communication"}
 	for _, word := range contentRunWords {	
 		// @TODO: implement!
+		if strings.Contains(content, word) {
+			weight++
+		}
 	}
 
 	return weight
