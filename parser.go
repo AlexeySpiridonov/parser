@@ -53,15 +53,8 @@ func process() {
 	}
 }
 
-<<<<<<< HEAD
 func processPage(page *db.Page) {
 	pageHTML, err := loadHtml(page.Url)
-=======
-func getContentByURL(url string) {
-
-	//doc, err := goquery.NewDocument("http://moscow.startups-list.com/")
-	doc, err := goquery.NewDocument(url)
->>>>>>> d4e7115328019995fb8ee5598bff17d4698afb65
 	if err != nil {
 		return
 	}
