@@ -29,12 +29,11 @@ func GetPageFromDB() (*Page, error) {
 	if err != nil {
 		refresh(err)
 	}
-	log.Debug("Load page", page)
+	log.Debug("Load page " + page.Url)
 	return page, err
 }
 
 func (p Page) SetStatus(status int) {
-	log.Debug("Set status ", status, p)
 	err := context.Db.C("page").UpdateId(p.Id, bson.M{"$set": bson.M{"status": status}})
 	if err != nil {
 		refresh(err)
@@ -42,7 +41,6 @@ func (p Page) SetStatus(status int) {
 }
 
 func SavePage(page *Page) (bool, error) {
-	log.Debug("Save", page)
 
 	alreadyExists := false
 
@@ -51,19 +49,19 @@ func SavePage(page *Page) (bool, error) {
 
 	if err != nil {
 		err = context.Db.C("page").Insert(page)
+		log.Debug("Add page " + page.Url)
 		if err != nil {
 			refresh(err)
 		}
 	} else {
 		alreadyExists = true
-		log.Debug("Already exist", page)
+		log.Debug("Already exist " + page.Url)
 	}
 
 	return alreadyExists, err
 }
 
 func SaveEmail(email *Email) (bool, error) {
-	log.Debug("Save", email)
 
 	alreadyExists := false
 
@@ -72,12 +70,13 @@ func SaveEmail(email *Email) (bool, error) {
 
 	if err != nil {
 		err = context.Db.C("emal").Insert(email)
+		log.Debug("Add email: " + email.Email)
 		if err != nil {
 			refresh(err)
 		}
 	} else {
 		alreadyExists = true
-		log.Debug("Already exist", email)
+		log.Debug("Already exist: " + email.Email)
 	}
 
 	return alreadyExists, err

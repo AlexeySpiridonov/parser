@@ -37,11 +37,11 @@ func main() {
 
 	wg.Wait()
 
-	log.Debug("All workers are finished! Exit!!!")
+	log.Info("All workers are finished! Exit!!!")
 }
 
 func process(i int) {
-	log.Debug("Start worker #", i+1)
+	log.Info("Start worker #", i+1)
 
 	defer wg.Done()
 
@@ -59,10 +59,10 @@ func process(i int) {
 		// Process!
 		processPage(page)
 
-		time.Sleep(1 * time.Second)
+		time.Sleep(10 * time.Second)
 	}
 
-	log.Debug("End worker #", i+1)
+	log.Info("End worker #", i+1)
 }
 
 func processPage(page *db.Page) {
@@ -118,13 +118,14 @@ func getPageWeight(page *db.Page, content string) int {
 	}
 
 	urlStopWords := []string{
-		"twitter", "facebook", "flickr", "example", "simple", "domain",
+		"twitter", "facebook", "flickr", "example", "simple", "domain", "vk.com", "livejournal",
 		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
 		"schema.org", "cloudfront.net",
 		".jpg", ".png", ".gif", ".js", ".css",
 	}
 	for _, word := range urlStopWords {
 		if strings.Contains(strings.ToLower(current.Host), word) {
+			log.Debug("stop word" + word)
 			return 0
 		}
 	}
