@@ -27,11 +27,12 @@ func main() {
 
 	log.Info("GOMAXPROCS:%d\n", runtime.GOMAXPROCS(0))
 
-	maxRoutines := 1
+	maxRoutines := 16
 
 	wg.Add(maxRoutines)
 
 	for i := 0; i < maxRoutines; i++ {
+		time.Sleep(3 * time.Second)
 		go process(i)
 	}
 
@@ -106,7 +107,7 @@ func getPageWeight(page *db.Page, content string) int {
 	// @TODO
 
 	// Initial Weight - is the Parent Weight!
-	weight := page.ParentWeight
+	weight := page.ParentWeight - 5
 
 	parent, err  := url.Parse(page.Parent)
 	if err != nil {
