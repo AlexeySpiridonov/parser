@@ -133,7 +133,7 @@ func getPageWeight(page *db.Page, content string) int {
 		"twitter", "facebook", "flickr", "example", "simple", "domain", "vk.com", "livejournal",
 		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
 		"schema.org", "cloudfront.net",
-		".jpg", ".png", ".gif", ".js", ".css",
+		".jpg", ".png", ".gif", ".js", ".css", ".min",
 	}
 	for _, word := range urlStopWords {
 		if strings.Contains(strings.ToLower(current.Host), word) {
