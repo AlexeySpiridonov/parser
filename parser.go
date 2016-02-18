@@ -122,8 +122,8 @@ func getPageWeight(page *db.Page, content string) int {
 	urlStopWords := []string{
 		"twitter", "facebook", "flickr", "example", "simple", "domain",
 		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
-		"schema.org", "cloudfront.net", 
-		".jpg", ".png", ".gif",
+		"schema.org", "cloudfront.net",
+		".jpg", ".png", ".gif", ".js", ".css"
 	}
 	for _, word := range urlStopWords {
 		if strings.Contains(strings.ToLower(current.Host), word) {
@@ -140,7 +140,7 @@ func getPageWeight(page *db.Page, content string) int {
 	}
 
 	contentRunWords := []string{"hippster", "social", "communication"}
-	for _, word := range contentRunWords {	
+	for _, word := range contentRunWords {
 		// @TODO: implement!
 		if strings.Contains(content, word) {
 			weight++
@@ -151,8 +151,8 @@ func getPageWeight(page *db.Page, content string) int {
 }
 
 func getEmails(content string) []string {
-	r := []string{}
-	return r
+	r, _ := regexp.Compile(`[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,10}`)
+	return r.FindAllString(content, -1)
 }
 
 func getURLs(content string) []string {
