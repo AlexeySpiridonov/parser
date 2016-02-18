@@ -137,7 +137,7 @@ func getPageWeight(page *db.Page, content string) int {
 	}
 	for _, word := range urlStopWords {
 		if strings.Contains(strings.ToLower(current.Host), word) {
-			log.Debug("stop word" + word)
+			log.Debug("stop word: " + word)
 			return 0
 		}
 	}
@@ -171,12 +171,12 @@ func getURLs(content string) []string {
 }
 
 func loadHtml(url string) (string, error) {
-	log.Debug("Load url", url)
+	log.Debug("Load url: " + url)
 
 	response, err := http.Get(url)
 
 	if err != nil {
-		log.Error("Load url error" + err.Error())
+		log.Error("Load url error: " + err.Error())
 		return "", err
 	} else {
 		defer response.Body.Close()
