@@ -150,11 +150,11 @@ func getPageWeight(page *db.Page, content string) int {
 		}
 	}
 
-	contentRunWords := []string{"hippster", "social", "communication"}
+	contentRunWords := []string{"hippster", "dating", "communication"}
 	for _, word := range contentRunWords {
 		// @TODO: implement!
 		if strings.Contains(content, word) {
-			weight = weight + 10
+			weight = weight + 1
 		}
 	}
 
