@@ -59,7 +59,7 @@ func process(i int) {
 		// Process!
 		processPage(page)
 
-		time.Sleep(10 * time.Second)
+		time.Sleep(3 * time.Second)
 	}
 
 	log.Info("End worker #", i+1)
@@ -94,7 +94,6 @@ func processPage(page *db.Page) {
 			if strings.Trim(parsedURL.Scheme, " ") == "" {
 				parsedURL.Scheme = "http";
 			}
-
 			db.SavePage(&db.Page{Url: parsedURL.String(), Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
 		}
 

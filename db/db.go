@@ -49,13 +49,13 @@ func SavePage(page *Page) (bool, error) {
 
 	if err != nil {
 		err = context.Db.C("page").Insert(page)
-		log.Debug("Add page " + page.Url)
+		log.Info("Add page " + page.Url)
 		if err != nil {
 			refresh(err)
 		}
 	} else {
 		alreadyExists = true
-		log.Debug("Already exist " + page.Url)
+		//log.Debug("Already exist " + page.Url)
 	}
 
 	return alreadyExists, err
@@ -69,8 +69,8 @@ func SaveEmail(email *Email) (bool, error) {
 	err := context.Db.C("email").Find(bson.M{"email": email.Email}).One(&e)
 
 	if err != nil {
-		err = context.Db.C("emal").Insert(email)
-		log.Debug("Add email: " + email.Email)
+		err = context.Db.C("email").Insert(email)
+		log.Info("Add email: " + email.Email)
 		if err != nil {
 			refresh(err)
 		}
