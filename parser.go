@@ -59,7 +59,7 @@ func process(i int) {
 		// Process!
 		processPage(page)
 
-		time.Sleep(1 * time.Second)
+		time.Sleep(10 * time.Second)
 	}
 
 	log.Debug("End worker #", i+1)
@@ -82,8 +82,20 @@ func processPage(page *db.Page) {
 
 		//Urls
 		urls := getURLs(pageHTML)
-		for _, url := range urls {
-			db.SavePage(&db.Page{Url: url, Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
+		for _, rawURL := range urls {
+			// Parse URL
+			parsedURL, err := url.Parse(rawURL)
+			if err != nil {
+				log.Error("Could not Parse URL: " + rawURL)
+				continue
+			}
+
+			// http:// by default if none is set (i.e. empty)
+			if strings.Trim(parsedURL.Scheme, " ") == "" {
+				parsedURL.Scheme = "http";
+			}
+
+			db.SavePage(&db.Page{Url: parsedURL.String(), Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
 		}
 
 	} else {
