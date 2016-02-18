@@ -99,22 +99,22 @@ func getPageWeight(page *db.Page, content string) int {
 
 	parent, err  := url.Parse(page.Parent)
 	if err != nil {
-		return weight
+		return 0
 	}
 
 	current, err := url.Parse(page.Url)
 	if err != nil {
-		return weight
+		return 0
 	}
 
 	/*
-	  сравниваем url, если он с другого домена, то поднимаем вес
+	  сравниваем url, если он с другого домена, то опускаем вес
 	  если есть стоп слова, понижаем вес
 	  если есть  run слова,  повышаем вес
 	*/
 
 	if strings.ToLower(parent.Host) != strings.ToLower(current.Host) {
-		weight++
+		weight = weight - 50
 	}
 
 	urlStopWords := []string{
@@ -125,15 +125,15 @@ func getPageWeight(page *db.Page, content string) int {
 	}
 	for _, word := range urlStopWords {
 		if strings.Contains(strings.ToLower(current.Host), word) {
-			weight--
+			return 0
 		}
 	}
 
-	contentStopWords := []string{"development", "kitchen", "sex", "porn"}
+	contentStopWords := []string{"kitchen", "sex", "porn"}
 	for _, word := range contentStopWords {
 		// @TODO: implement!
 		if strings.Contains(content, word) {
-			weight--
+			weight = weight - 10
 		}
 	}
 
@@ -141,7 +141,7 @@ func getPageWeight(page *db.Page, content string) int {
 	for _, word := range contentRunWords {
 		// @TODO: implement!
 		if strings.Contains(content, word) {
-			weight++
+			weight = weight + 10
 		}
 	}
 
