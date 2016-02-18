@@ -24,6 +24,8 @@ func GetPageFromDB() (*Page, error) {
 	page := &Page{}
 	//TODO  add weight check >0
 	err := context.Db.C("page").Find(bson.M{"status": 0, "parentweight":bson.M{"$gt": 0}}).Sort("timestamp").One(&page)
+	//err := context.Db.C("page").Find(nil).Sort("timestamp").One(&page)
+
 	if err != nil {
 		refresh(err)
 	}

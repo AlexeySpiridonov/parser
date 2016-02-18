@@ -1,9 +1,8 @@
 package main
 
 import (
-	//"github.com/AlexeySpiridonov/goapp-config"
-	"parser.2hive.org/db"
-	"parser.2hive.org/ini"
+	"github.com/AlexeySpiridonov/parser/db"
+	"github.com/AlexeySpiridonov/parser/ini"
 	"github.com/op/go-logging"
 	"io/ioutil"
 	"net/http"
@@ -13,8 +12,7 @@ import (
 	"strings"
 	"github.com/mvdan/xurls"
 	"sync"
-	//htmlparser "github.com/calbucci/go-htmlparser"
-	//"github.com/PuerkitoBio/goquery"
+	"regexp"
 )
 
 var log = logging.MustGetLogger("main")
@@ -123,7 +121,7 @@ func getPageWeight(page *db.Page, content string) int {
 		"twitter", "facebook", "flickr", "example", "simple", "domain",
 		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
 		"schema.org", "cloudfront.net",
-		".jpg", ".png", ".gif", ".js", ".css"
+		".jpg", ".png", ".gif", ".js", ".css",
 	}
 	for _, word := range urlStopWords {
 		if strings.Contains(strings.ToLower(current.Host), word) {

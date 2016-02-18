@@ -2,7 +2,7 @@ package ini
 
 import (
 	"github.com/AlexeySpiridonov/goapp-config"
-	"parser.2hive.org/db"
+	"github.com/AlexeySpiridonov/parser/db"
 	"github.com/op/go-logging"
 	"github.com/yvasiyarov/gorelic"
 	"gopkg.in/mgo.v2"
