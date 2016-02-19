@@ -173,7 +173,12 @@ func getURLs(content string) []string {
 func loadHtml(url string) (string, error) {
 	log.Debug("Load url: " + url)
 
-	response, err := http.Get(url)
+  qurl, err := strconv.Unquote(url)
+	if err!=nil {
+		return "", err
+	}
+	
+	response, err := http.Get(qurl)
 
 	if err != nil {
 		log.Error("Load url error: " + err.Error())
