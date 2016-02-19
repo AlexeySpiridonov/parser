@@ -2,6 +2,7 @@ package db
 
 import (
 	"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2"
 )
 
 type Email struct {
@@ -22,9 +23,18 @@ type Page struct {
 
 func GetPageFromDB() (*Page, error) {
 	page := &Page{}
-	//TODO  add weight check >0
-	err := context.Db.C("page").Find(bson.M{"status": 0, "parentweight":bson.M{"$gt": 0}}).Sort("-parentweight").One(&page)
-	//err := context.Db.C("page").Find(nil).Sort("timestamp").One(&page)
+	
+	c := bson.M{"status": 0, "parentweight": bson.M{"$gt": 0}}
+
+	change := mgo.Change{
+        Update: bson.M{"$set": bson.M{"status": 1}},
+        Upsert: false,
+        Remove: false,
+        ReturnNew: true,
+	}
+
+	//err := context.Db.C("page").Find().Sort("-parentweight").One(&page)
+	_, err := context.Db.C("page").Find(c).Sort("-parentweight").Apply(change, &page)
 
 	if err != nil {
 		refresh(err)
