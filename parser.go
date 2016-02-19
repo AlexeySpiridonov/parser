@@ -13,7 +13,6 @@ import (
 	"github.com/mvdan/xurls"
 	"sync"
 	"regexp"
-	"strconv"
 )
 
 var log = logging.MustGetLogger("main")
@@ -133,7 +132,7 @@ func getPageWeight(page *db.Page, content string) int {
 	urlStopWords := []string{
 		"twitter", "facebook", "flickr", "example", "simple", "domain", "vk.com", "livejournal",
 		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
-		"schema.org", "cloudfront.net",
+		"schema.org", "cloudfront.net", "mail.ru", "porn"
 		".jpg", ".png", ".gif", ".js", ".css", ".min",
 	}
 	for _, word := range urlStopWords {
@@ -172,14 +171,10 @@ func getURLs(content string) []string {
 }
 
 func loadHtml(url string) (string, error) {
+
 	log.Debug("Load url: " + url)
 
-  qurl, err := strconv.Unquote(url)
-	if err!=nil {
-		return "", err
-	}
-
-	response, err := http.Get(qurl)
+	response, err := http.Get(url)
 
 	if err != nil {
 		log.Error("Load url error: " + err.Error())
