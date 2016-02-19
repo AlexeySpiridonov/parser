@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"runtime"
+	"html"
 	"time"
 	"strings"
 	"github.com/mvdan/xurls"
@@ -95,7 +96,7 @@ func processPage(page *db.Page) {
 			if strings.Trim(parsedURL.Scheme, " ") == "" {
 				parsedURL.Scheme = "http";
 			}
-			db.SavePage(&db.Page{Url: parsedURL.String(), Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
+			db.SavePage(&db.Page{Url: html.UnescapeString(parsedURL.String()), Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
 		}
 
 	} else {
@@ -172,13 +173,8 @@ func getURLs(content string) []string {
 
 func loadHtml(url string) (string, error) {
 	log.Debug("Load url: " + url)
-
-  qurl, err := strconv.Unquote(url)
-	if err!=nil {
-		return "", err
-	}
 	
-	response, err := http.Get(qurl)
+	response, err := http.Get(url)
 
 	if err != nil {
 		log.Error("Load url error: " + err.Error())
