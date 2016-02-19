@@ -13,6 +13,7 @@ import (
 	"github.com/mvdan/xurls"
 	"sync"
 	"regexp"
+	"strconv"
 )
 
 var log = logging.MustGetLogger("main")
@@ -177,7 +178,7 @@ func loadHtml(url string) (string, error) {
 	if err!=nil {
 		return "", err
 	}
-	
+
 	response, err := http.Get(qurl)
 
 	if err != nil {
