@@ -28,12 +28,12 @@ func main() {
 
 	log.Info("GOMAXPROCS:%d\n", runtime.GOMAXPROCS(0))
 
-	maxRoutines := 16
+	maxRoutines := 1
 
 	wg.Add(maxRoutines)
 
 	for i := 0; i < maxRoutines; i++ {
-		time.Sleep(3 * time.Second)
+		time.Sleep(5 * time.Second)
 		go process(i)
 	}
 
@@ -60,16 +60,38 @@ func process(i int) {
 
 		// Process!
 		processPage(page)
+		//time.Sleep(1 * time.Second)
 
-		time.Sleep(3 * time.Second)
 	}
 
 	log.Info("End worker #", i+1)
 }
 
+func  checkStopURL(url string) bool {
+	urlStopWords := []string{
+		"twitter", "facebook", "flickr", "example", "simple", "domain", "vk.com", "livejournal",
+		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
+		"schema.org", "cloudfront.net", "mail.ru", "porn", "forbes.com", "nytimes.com", "techcrunch.com","bitly.com",
+		".jpg", ".png", ".gif", ".js", ".css", ".min", "angel.co",
+	}
+	for _, word := range urlStopWords {
+		if strings.Contains(strings.ToLower(url), word) {
+			//log.Debug("Stop URL word: " + word)
+			return true
+		}
+	}
+	return false
+}
+
 func processPage(page *db.Page) {
+
+	if checkStopURL(page.Url) {
+		return
+	}
+
 	pageHTML, err := loadHtml(page.Url)
 	if err != nil {
+		log.Error("Page load error" + err.Error())
 		return
 	}
 
@@ -92,6 +114,10 @@ func processPage(page *db.Page) {
 				continue
 			}
 
+			if checkStopURL(parsedURL.String()) {
+				continue
+			}
+
 			// http:// by default if none is set (i.e. empty)
 			if strings.Trim(parsedURL.Scheme, " ") == "" {
 				parsedURL.Scheme = "http";
@@ -102,6 +128,8 @@ func processPage(page *db.Page) {
 	} else {
 		log.Debug("Skip page with low weight", page)
 	}
+	//time.Sleep(1 * time.Second)
+
 }
 
 func getPageWeight(page *db.Page, content string) int {
@@ -127,20 +155,7 @@ func getPageWeight(page *db.Page, content string) int {
 	*/
 
 	if strings.ToLower(parent.Host) != strings.ToLower(current.Host) {
-		weight = weight - 50
-	}
-
-	urlStopWords := []string{
-		"twitter", "facebook", "flickr", "example", "simple", "domain", "vk.com", "livejournal",
-		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
-		"schema.org", "cloudfront.net", "mail.ru", "porn",
-		".jpg", ".png", ".gif", ".js", ".css", ".min",
-	}
-	for _, word := range urlStopWords {
-		if strings.Contains(strings.ToLower(current.Host), word) {
-			log.Debug("stop word: " + word)
-			return 0
-		}
+		weight = weight - 30
 	}
 
 	contentStopWords := []string{"kitchen", "sex", "porn"}
@@ -158,7 +173,6 @@ func getPageWeight(page *db.Page, content string) int {
 			weight = weight + 1
 		}
 	}
-
 	return weight
 }
 
@@ -173,12 +187,11 @@ func getURLs(content string) []string {
 
 func loadHtml(url string) (string, error) {
 
-	log.Debug("Load url: " + url)
+	log.Debug("Get URL: " + url)
 
 	response, err := http.Get(url)
 
 	if err != nil {
-		log.Error("Load url error: " + err.Error())
 		return "", err
 	} else {
 		defer response.Body.Close()
