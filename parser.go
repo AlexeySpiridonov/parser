@@ -28,12 +28,12 @@ func main() {
 
 	log.Info("GOMAXPROCS:%d\n", runtime.GOMAXPROCS(0))
 
-	maxRoutines := 1
+	maxRoutines := 30
 
 	wg.Add(maxRoutines)
 
 	for i := 0; i < maxRoutines; i++ {
-		time.Sleep(5 * time.Second)
+		time.Sleep(1 * time.Second)
 		go process(i)
 	}
 
@@ -69,7 +69,7 @@ func process(i int) {
 
 func  checkStopURL(url string) bool {
 	urlStopWords := []string{
-		"twitter", "facebook", "flickr", "example", "simple", "domain", "vk.com", "livejournal",
+		"twitter", "facebook", "flickr", "example", "simple", "domain", "vk.com", "livejournal", "github.com",
 		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
 		"schema.org", "cloudfront.net", "mail.ru", "porn", "forbes.com", "nytimes.com", "techcrunch.com","bitly.com",
 		".jpg", ".png", ".gif", ".js", ".css", ".min", "angel.co",

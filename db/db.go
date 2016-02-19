@@ -23,7 +23,7 @@ type Page struct {
 
 func GetPageFromDB() (*Page, error) {
 	page := &Page{}
-	
+
 	c := bson.M{"status": 0, "parentweight": bson.M{"$gt": 0}}
 
 	change := mgo.Change{
@@ -39,7 +39,7 @@ func GetPageFromDB() (*Page, error) {
 	if err != nil {
 		refresh(err)
 	}
-	log.Debug("Load page " + page.Url)
+	//log.Debug("Load page " + page.Url)
 	return page, err
 }
 
