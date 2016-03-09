@@ -14,6 +14,7 @@ import (
 	"github.com/mvdan/xurls"
 	"sync"
 	"regexp"
+	"math/rand"
 )
 
 var log = logging.MustGetLogger("main")
@@ -28,7 +29,7 @@ func main() {
 
 	log.Info("GOMAXPROCS:%d\n", runtime.GOMAXPROCS(0))
 
-	maxRoutines := 30
+	maxRoutines := 3
 
 	wg.Add(maxRoutines)
 
@@ -72,7 +73,8 @@ func  checkStopURL(url string) bool {
 		"twitter", "facebook", "flickr", "example", "simple", "domain", "vk.com", "livejournal", "github.com",
 		"jquery", "linkedin", "google", "yahoo", "yandex", "cdn.", "fonts.", "maps.", "bootstrap", "googleapis",
 		"schema.org", "cloudfront.net", "mail.ru", "porn", "forbes.com", "nytimes.com", "techcrunch.com","bitly.com",
-		".jpg", ".png", ".gif", ".js", ".css", ".min", "angel.co",
+		".jpg", ".png", ".gif", ".js", ".css", ".min", "tumblr.com", "youtube.com", "pinterest.com","angel.co",
+		"static", "assets", "signin", "ask.com", "vimeo.com",
 	}
 	for _, word := range urlStopWords {
 		if strings.Contains(strings.ToLower(url), word) {
@@ -101,7 +103,7 @@ func processPage(page *db.Page) {
 		//emails
 		emails := getEmails(pageHTML)
 		for _, email := range emails {
-			db.SaveEmail(&db.Email{Email: email, Url: page.Url, Timestamp: db.GetTimestamp()})
+			go db.SaveEmail(&db.Email{Email: email, Url: page.Url, Timestamp: db.GetTimestamp()})
 		}
 
 		//Urls
@@ -122,13 +124,13 @@ func processPage(page *db.Page) {
 			if strings.Trim(parsedURL.Scheme, " ") == "" {
 				parsedURL.Scheme = "http";
 			}
-			db.SavePage(&db.Page{Url: html.UnescapeString(parsedURL.String()), Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
+			go db.SavePage(&db.Page{Url: html.UnescapeString(parsedURL.String()), Parent: page.Url, ParentWeight: weight, Status: 0, Timestamp: db.GetTimestamp()})
 		}
 
 	} else {
 		log.Debug("Skip page with low weight", page)
 	}
-	//time.Sleep(1 * time.Second)
+	time.Sleep(time.Duration(rand.Int31n(20)) * time.Second)
 
 }
 
@@ -166,11 +168,11 @@ func getPageWeight(page *db.Page, content string) int {
 		}
 	}
 
-	contentRunWords := []string{"hippster", "dating", "communication"}
+	contentRunWords := []string{"hippster", "dating", "communication", "venture", "startup"}
 	for _, word := range contentRunWords {
 		// @TODO: implement!
 		if strings.Contains(content, word) {
-			weight = weight + 1
+			weight = weight + 5
 		}
 	}
 	return weight
