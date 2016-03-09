@@ -130,7 +130,8 @@ func processPage(page *db.Page) {
 	} else {
 		log.Debug("Skip page with low weight", page)
 	}
-	time.Sleep(time.Duration(rand.Int31n(20)) * time.Second)
+
+	time.Sleep(time.Duration(rand.Int31n(30)) * time.Second)
 
 }
 
